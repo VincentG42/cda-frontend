@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette de verts */
+  --color-green-primary: #176A2B;
+  --color-green-secondary: #22C55E;
+  --color-green-accent: #15803D;
+
+  /* Palette d'oranges */
+  --color-orange-primary: #FF7F11;
+  --color-orange-secondary: #FB923C;
+  --color-orange-accent: #EA580C;
+
+  /* Palette de neutres */
+  --color-neutral-primary: #374151;
+  --color-neutral-secondary: #6B7280;
+  --color-neutral-accent: #F9FAFB;
+
+  /* Couleurs sémantiques par défaut */
+  --color-primary: var(--color-green-primary);
+  --color-secondary: var(--color-orange-primary);
+  --color-accent: var(--color-green-accent);
+  --color-neutral: var(--color-neutral-primary);
+}
+
+body {
+  background-color: var(--color-neutral-accent);
+  color: var(--color-neutral-primary);
+}

@@ -1,0 +1,100 @@
+---
+// TODO: Utiliser un layout global pour les pages admin
+---
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - CCSLR</title>
+  <style>
+    body { font-family: sans-serif; background-color: #f4f4f9; margin: 0; }
+    .header { background-color: #333; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { margin: 0; font-size: 1.5rem; }
+    #logout-btn { background-color: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
+    .container { padding: 2rem; }
+    .section { background-color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 2rem; }
+    h2 { margin-top: 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #f2f2f2; }
+    .actions button { margin-right: 0.5rem; }
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script>
+    // 1. Vérification de l'authentification
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      window.location.href = '/login';
+    }
+
+    // 2. Rendu de la page
+    const root = document.getElementById('root');
+    root.innerHTML = `
+      <header class="header">
+        <h1>Dashboard Admin</h1>
+        <button id="logout-btn">Déconnexion</button>
+      </header>
+
+      <main class="container">
+        <section class="section">
+          <h2>Gestion des Licenciés</h2>
+          <div class="actions">
+            <button id="list-users-btn">Lister les licenciés</button>
+            <button>Créer un licencié</button> <!-- Action future -->
+          </div>
+          <div id="users-list"></div>
+        </section>
+
+        <section class="section">
+          <h2>Gestion des Équipes</h2>
+          <div class="actions">
+            <button>Lister les équipes</button> <!-- Action future -->
+            <button>Créer une équipe</button> <!-- Action future -->
+          </div>
+        </section>
+      </main>
+    `;
+
+    // 3. Logique des événements
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('auth_token');
+      window.location.href = '/login';
+    });
+
+    const listUsersBtn = document.getElementById('list-users-btn');
+    const usersListDiv = document.getElementById('users-list');
+
+    listUsersBtn.addEventListener('click', async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          }
+        });
+
+        if (!response.ok) throw new Error('Erreur lors de la récupération des utilisateurs.');
+
+        const users = await response.json();
+        
+        let table = '<table><thead><tr><th>ID</th><th>Nom</th><th>Email</th></tr></thead><tbody>';
+        for (const user of users) {
+          table += `<tr><td>${user.id}</td><td>${user.name}</td><td>${user.email}</td></tr>`;
+        }
+        table += '</tbody></table>';
+
+        usersListDiv.innerHTML = table;
+
+      } catch (error) {
+        usersListDiv.innerHTML = `<p style="color: red;">${error.message}</p>`;
+      }
+    });
+
+  </script>
+</body>
+</html>
