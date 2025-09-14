@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-const API_BASE_URL = 'https://backend-basketclub-app.ddev.site/api';
+const API_BASE_URL = import.meta.env.PUBLIC_API_URL + '/api';
 
 export const useTeamsStore = defineStore('teams', () => {
   // State

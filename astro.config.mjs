@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [vue()],
+  integrations: [vue({ appEntrypoint: '/src/plugins/pinia.js' })],
 
   vite: {
     plugins: [tailwindcss()]

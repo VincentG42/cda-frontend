@@ -96,7 +96,8 @@
       const password = form.password.value;
 
       try {
-        const response = await fetch('http://localhost:8000/api/login', {
+              const apiUrl = import.meta.env.PUBLIC_API_URL;
+        const response = await fetch(`${apiUrl}/api/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -115,7 +116,7 @@
         // Pour l'instant, on stocke dans localStorage et on redirige vers une page admin (à créer)
         localStorage.setItem('auth_token', data.token);
         alert('Connexion réussie !');
-        // window.location.href = '/admin/dashboard'; // Redirection future
+                window.location.href = '/admin/dashboard'; // Redirection future
 
       } catch (error) {
         errorMessage.textContent = error.message;
