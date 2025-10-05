@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavigationBar from '../components/layout/NavigationBar.astro';
+import Footer from '../components/layout/Footer.astro';
+import LoginForm from '../components/connexion/LoginForm.vue';
+---
+
+<Layout title="Connexion - CCSLR St Joseph">
+  <div class="bg-gray-50 min-h-screen flex flex-col">
+    <NavigationBar />
+    <main class="flex-grow flex items-center justify-center py-20 md:py-32">
+      <LoginForm client:load />
+    </main>
+    <Footer />
+  </div>
+</Layout>

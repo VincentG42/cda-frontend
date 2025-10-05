@@ -3,13 +3,9 @@ import { defineConfig } from 'astro/config';
 
 import vue from '@astrojs/vue';
 
-import tailwindcss from '@tailwindcss/vite';
+import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [vue({ appEntrypoint: '/src/plugins/pinia.js' })],
-
-  vite: {
-    plugins: [tailwindcss()]
-  }
+  integrations: [vue({ appEntrypoint: '/src/plugins/pinia.js' }), tailwind()]
 });

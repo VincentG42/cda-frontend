@@ -1,0 +1,154 @@
+---
+const events = [
+  {
+    id: 1,
+    title: 'Spring Championship Tournament',
+    date: 'March 15, 2024',
+    time: '9:00 AM',
+    location: 'St Joseph Sports Complex',
+    type: 'tournament',
+    participants: 8,
+    description: 'Annual spring tournament featuring teams from across the region.',
+  },
+  {
+    id: 2,
+    title: 'Youth Training Camp',
+    date: 'March 22, 2024',
+    time: '2:00 PM',
+    location: 'Main Gymnasium',
+    type: 'training',
+    participants: 24,
+    description: 'Intensive training session for youth players aged 12-16.',
+  },
+  {
+    id: 3,
+    title: 'Community Basketball Night',
+    date: 'March 29, 2024',
+    time: '7:00 PM',
+    location: 'Outdoor Courts',
+    type: 'social',
+    participants: 40,
+    description: 'Fun community event with games, food, and prizes for all ages.',
+  },
+  {
+    id: 4,
+    title: 'Skills Development Workshop',
+    date: 'April 5, 2024',
+    time: '10:00 AM',
+    location: 'Training Facility',
+    type: 'training',
+    participants: 16,
+    description: 'Advanced skills workshop focusing on shooting and ball handling.',
+  },
+];
+
+const getEventTypeColor = (type) => {
+  switch (type) {
+    case 'tournament':
+      return 'bg-[#FF7F11] text-white';
+    case 'training':
+      return 'bg-[#176A2B] text-white';
+    case 'social':
+      return 'bg-blue-500 text-white';
+    default:
+      return 'bg-gray-500 text-white';
+  }
+};
+
+const featuredEvent = events[0];
+const upcomingEvents = events.slice(1, 4);
+---
+
+<section id="events" class="py-20 bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-[#176A2B] mb-4" style="font-family: Lato">Prochains événements</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Join us for exciting tournaments, training sessions, and community events. 
+        There's something for every basketball enthusiast!
+      </p>
+    </div>
+
+    <div class="flex flex-col">
+      <!-- Featured Event Banner -->
+      <div class="bg-gradient-to-r from-[#176A2B] to-[#FF7F11] rounded-2xl p-8 mb-6 text-white relative overflow-hidden">
+        <div class="relative z-10">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="flex-1">
+              <div class="flex items-center mb-4">
+                <span class="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium mr-4" style="font-family: Lato">
+                  {featuredEvent.type.charAt(0).toUpperCase() + featuredEvent.type.slice(1)}
+                </span>
+              </div>
+              
+              <h3 class="text-3xl md:text-4xl font-bold mb-3" style="font-family: Lato">
+                {featuredEvent.title}
+              </h3>
+              
+              <p class="text-white/90 mb-6 text-lg" style="font-family: Lato">
+                {featuredEvent.description}
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                  <span style="font-family: Lato">{featuredEvent.date}</span>
+                </div>
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span style="font-family: Lato">{featuredEvent.time}</span>
+                </div>
+                <div class="flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span style="font-family: Lato">{featuredEvent.location}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Background decoration -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-32 translate-x-32"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
+      </div>
+
+      <!-- Upcoming Events Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {upcomingEvents.map(event => (
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col transform hover:-translate-y-1 hover:scale-102">
+            <div class="p-6 flex-1 flex flex-col">
+              <div class="flex items-center justify-between mb-4">
+                <span class={`px-3 py-1 rounded-full text-sm font-medium ${getEventTypeColor(event.type)}`} style="font-family: Lato">
+                  {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
+                </span>
+              </div>
+
+              <h3 class="text-lg font-bold text-gray-900 mb-2" style="font-family: Lato">
+                {event.title}
+              </h3>
+              
+              <p class="text-gray-600 mb-4 text-sm line-clamp-2" style="font-family: Lato">
+                {event.description}
+              </p>
+
+              <div class="space-y-2 mb-4">
+                <div class="flex items-center text-gray-700 text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-[#176A2B]"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                  <span style="font-family: Lato">{event.date}</span>
+                </div>
+                <div class="flex items-center text-gray-700 text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-[#176A2B]"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <span style="font-family: Lato">{event.time}</span>
+                </div>
+                <div class="flex items-center text-gray-700 text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-[#176A2B]"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span style="font-family: Lato">{event.location}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

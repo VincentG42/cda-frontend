@@ -1,0 +1,113 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - checkbox "Use dark theme" [ref=e6]
+    - generic [ref=e7] [cursor=pointer]:
+      - img [ref=e8] [cursor=pointer]
+      - img [ref=e12] [cursor=pointer]
+      - generic [ref=e16] [cursor=pointer]: Use dark theme
+  - banner [ref=e17]:
+    - generic [ref=e18]:
+      - heading "FailedToLoadModuleSSR" [level=2] [ref=e19]
+      - heading "Could not import file." [level=1] [ref=e20]
+    - img [ref=e23]
+  - generic [ref=e26]:
+    - generic [ref=e27]:
+      - img [ref=e29]
+      - generic [ref=e31]:
+        - text: Could not import
+        - code [ref=e32]: ../../layouts/Layout.astro
+        - text: .
+      - link "See Docs Reference" [ref=e34] [cursor=pointer]:
+        - /url: https://docs.astro.build/en/reference/errors/failed-to-load-module-ssr/
+        - text: See Docs Reference
+        - img [ref=e35] [cursor=pointer]
+    - generic [ref=e38]:
+      - img [ref=e40]
+      - generic [ref=e42]: This is often caused by a typo in the import path. Please make sure the file exists.
+  - generic [ref=e43]:
+    - generic [ref=e44]:
+      - heading "pages/connexion.astro:2:20" [level=2] [ref=e45]
+      - button "Open in editor" [ref=e47]:
+        - text: Open in editor
+        - img [ref=e48]
+    - code [ref=e53]:
+      - generic [ref=e55]: "---"
+      - generic [ref=e56]:
+        - generic [ref=e57]: import
+        - generic [ref=e58]: Layout
+        - generic [ref=e59]: from
+        - generic [ref=e60]: "'../../layouts/Layout.astro'"
+        - generic [ref=e61]: ;
+      - generic [ref=e63]: ^
+      - generic [ref=e64]:
+        - generic [ref=e65]: import
+        - generic [ref=e66]: NavigationBar
+        - generic [ref=e67]: from
+        - generic [ref=e68]: "'../../components/layout/NavigationBar.astro'"
+        - generic [ref=e69]: ;
+      - generic [ref=e70]:
+        - generic [ref=e71]: import
+        - generic [ref=e72]: Footer
+        - generic [ref=e73]: from
+        - generic [ref=e74]: "'../../components/layout/Footer.astro'"
+        - generic [ref=e75]: ;
+      - generic [ref=e76]:
+        - generic [ref=e77]: import
+        - generic [ref=e78]: LoginForm
+        - generic [ref=e79]: from
+        - generic [ref=e80]: "'../../components/connexion/LoginForm.vue'"
+        - generic [ref=e81]: ;
+      - generic [ref=e83]: "---"
+      - generic [ref=e85]:
+        - generic [ref=e86]: <
+        - generic [ref=e87]: Layout
+        - generic [ref=e88]: title
+        - generic [ref=e89]: =
+        - generic [ref=e90]: "\"Connexion - CCSLR St Joseph\""
+        - generic [ref=e91]: ">"
+      - generic [ref=e92]:
+        - generic [ref=e93]: <
+        - generic [ref=e94]: div
+        - generic [ref=e95]: class
+        - generic [ref=e96]: =
+        - generic [ref=e97]: "\"bg-gray-50 min-h-screen flex flex-col\""
+        - generic [ref=e98]: ">"
+      - generic [ref=e99]:
+        - generic [ref=e100]: <
+        - generic [ref=e101]: NavigationBar
+        - generic [ref=e102]: />
+      - generic [ref=e103]:
+        - generic [ref=e104]: <
+        - generic [ref=e105]: main
+        - generic [ref=e106]: class
+        - generic [ref=e107]: =
+        - generic [ref=e108]: "\"flex-grow flex items-center justify-center py-20 md:py-32\""
+        - generic [ref=e109]: ">"
+      - generic [ref=e110]:
+        - generic [ref=e111]: <
+        - generic [ref=e112]: LoginForm
+        - generic [ref=e113]: client:load
+        - generic [ref=e114]: />
+      - generic [ref=e115]:
+        - generic [ref=e116]: </
+        - generic [ref=e117]: main
+        - generic [ref=e118]: ">"
+      - generic [ref=e119]:
+        - generic [ref=e120]: <
+        - generic [ref=e121]: Footer
+        - generic [ref=e122]: />
+      - generic [ref=e123]:
+        - generic [ref=e124]: </
+        - generic [ref=e125]: div
+        - generic [ref=e126]: ">"
+      - generic [ref=e127]:
+        - generic [ref=e128]: </
+        - generic [ref=e129]: Layout
+        - generic [ref=e130]: ">"
+  - generic [ref=e132]:
+    - heading "Stack Trace" [level=2] [ref=e133]
+    - generic [ref=e134]: "Error: Failed to load url ../../layouts/Layout.astro (resolved id: ../../layouts/Layout.astro) in /home/vincent/Documents/projet-cda/frontend-basketclub-app/src/pages/connexion.astro. Does the file exist? at loadAndTransform (file:///home/vincent/Documents/projet-cda/frontend-basketclub-app/node_modules/astro/node_modules/vite/dist/node/chunks/dep-D_zLpgQd.js:51968:17) at async instantiateModule (file:///home/vincent/Documents/projet-cda/frontend-basketclub-app/node_modules/astro/node_modules/vite/dist/node/chunks/dep-D_zLpgQd.js:52922:44)"
+```

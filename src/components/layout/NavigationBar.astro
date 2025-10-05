@@ -1,0 +1,99 @@
+---
+import AuthNav from './AuthNav.vue';
+const navItems = [
+  { label: "Accueil", id: 'hero' },
+  { label: "Événements", id: 'events' },
+  { label: "Matchs", id: 'matches' }
+];
+---
+
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+      <a href="/" class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-gradient-to-br from-[#176A2B] to-[#FF7F11] rounded-full flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold text-xs">CCSLR</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        {navItems.map(item => (
+          <button data-section-id={item.id} class="nav-link font-medium transition-colors hover:text-[#FF7F11]">
+            {item.label}
+          </button>
+        ))}
+        <AuthNav client:load />
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-button" class="md:hidden p-2">
+        <span id="menu-icon">Menu</span>
+        <span id="x-icon" class="hidden">X</span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <div class="px-4 py-4 space-y-4">
+        {navItems.map(item => (
+          <button data-section-id={item.id} class="nav-link block w-full text-left text-gray-700 font-medium hover:text-[#FF7F11] transition-colors">
+            {item.label}
+          </button>
+        ))}
+        <AuthNav client:load />
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.getElementById('main-nav');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const xIcon = document.getElementById('x-icon');
+    let isMobileMenuOpen = false;
+
+    // Scroll effect
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        nav.classList.add('bg-white', 'shadow-lg');
+        nav.querySelectorAll('.nav-link').forEach(link => link.classList.add('text-gray-700'));
+        nav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('text-white'));
+      } else {
+        nav.classList.remove('bg-white', 'shadow-lg');
+        nav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('text-gray-700'));
+        nav.querySelectorAll('.nav-link').forEach(link => link.classList.add('text-white'));
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+
+    // Mobile menu toggle
+    mobileMenuButton.addEventListener('click', () => {
+      isMobileMenuOpen = !isMobileMenuOpen;
+      mobileMenu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      xIcon.classList.toggle('hidden');
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const sectionId = (e.target as HTMLElement).dataset.sectionId;
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          if (isMobileMenuOpen) {
+            isMobileMenuOpen = false;
+            mobileMenu.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            xIcon.classList.add('hidden');
+          }
+        }
+      });
+    });
+  });
+</script>

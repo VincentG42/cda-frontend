@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavigationBar from '../components/layout/NavigationBar.astro';
+import Footer from '../components/layout/Footer.astro';
+import ContactForm from '../components/contact/ContactForm.vue';
+---
+
+<Layout title="Contact - CCSLR St Joseph">
+  <div class="bg-gray-50">
+    <NavigationBar />
+    <main class="py-20 md:py-32">
+      <ContactForm client:load />
+    </main>
+    <Footer />
+  </div>
+</Layout>

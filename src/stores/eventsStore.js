@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-export const useUsersStore = defineStore('users', () => {
-  const users = ref([]);
+export const useEventsStore = defineStore('events', () => {
+  const events = ref([]);
   const isLoading = ref(false);
   const error = ref(null);
 
-  const setUsers = (newUsers) => {
-    users.value = newUsers;
+  const setEvents = (newEvents) => {
+    events.value = newEvents;
   };
 
   const setLoading = (status) => {
@@ -18,5 +18,5 @@ export const useUsersStore = defineStore('users', () => {
     error.value = err;
   };
 
-  return { users, isLoading, error, setUsers, setLoading, setError };
+  return { events, isLoading, error, setEvents, setLoading, setError };
 });

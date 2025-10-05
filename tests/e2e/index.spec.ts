@@ -4,13 +4,13 @@ test('La page d\'accueil se charge correctement', async ({ page }) => {
   await page.goto('/');
 
   // Vérifie que le titre de la page est correct
-  await expect(page).toHaveTitle('Accueil - Basket Club');
+  await expect(page).toHaveTitle('CCSLR St Joseph Basketball Club');
 
   // Vérifie que le titre principal est présent
-  const mainTitle = page.getByRole('heading', { name: 'Bienvenue sur le site du Basket Club !' });
+  const mainTitle = page.getByRole('heading', { name: 'CCSLR' });
   await expect(mainTitle).toBeVisible();
 
-  // Vérifie que le bouton "Voir les équipes" est présent
-  const teamsButton = page.getByRole('button', { name: 'Voir les équipes' });
-  await expect(teamsButton).toBeVisible();
+  // Vérifie que le bouton "Evénements" est présent
+  const eventsButton = page.getByRole('button', { name: 'Evénements' });
+  await expect(eventsButton).toBeVisible();
 });

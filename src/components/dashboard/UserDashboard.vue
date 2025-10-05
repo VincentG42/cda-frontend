@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
-    <HeaderBar :admin-name="adminName" @logout="handleLogout" />
+    <HeaderBar :user-name="userName" @logout="handleLogout" />
     
     <div class="flex flex-1 overflow-hidden">
       <SidebarNavigation :active-section="activeSection" @section-change="handleSectionChange" />
@@ -10,7 +10,9 @@
           <transition name="fade" mode="out-in">
             <div :key="activeSection" class="h-full">
               <DashboardOverview v-if="activeSection === 'dashboard'" />
-              <SectionManager v-else :section="activeSection" />
+              <UserTeamInfo v-else-if="activeSection === 'team'" />
+              <UserMatches v-else-if="activeSection === 'matches'" />
+              <UserEvents v-else-if="activeSection === 'events'" />
             </div>
           </transition>
         </div>
@@ -25,12 +27,14 @@ import { useAuthStore } from '../../stores/authStore';
 import HeaderBar from './HeaderBar.vue';
 import SidebarNavigation from './SidebarNavigation.vue';
 import DashboardOverview from './DashboardOverview.vue';
-import SectionManager from './SectionManager.vue';
+import UserTeamInfo from './UserTeamInfo.vue';
+import UserMatches from './UserMatches.vue';
+import UserEvents from './UserEvents.vue';
 
 const authStore = useAuthStore();
 
 const activeSection = ref('dashboard');
-const adminName = ref(authStore.user ? authStore.user.name : 'Admin'); // Use authenticated user's name
+const userName = ref(authStore.user ? authStore.user.name : 'Utilisateur'); // Use authenticated user's name
 
 const handleLogout = () => {
   authStore.logout();
