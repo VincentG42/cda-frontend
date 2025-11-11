@@ -7,6 +7,7 @@ export default {
 		extend: {
 			colors: {
 				primary: {
+					DEFAULT: '#176A2B', // Set default primary color
 					50: colors.green[50],
 					100: colors.green[100],
 					200: colors.green[200],
@@ -20,6 +21,7 @@ export default {
 					950: colors.green[950],
 				},
 				secondary: {
+					DEFAULT: '#FF7F11', // Set default secondary color
 					50: colors.orange[50],
 					100: colors.orange[100],
 					200: colors.orange[200],

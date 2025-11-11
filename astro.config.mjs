@@ -7,5 +7,7 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [vue({ appEntrypoint: '/src/plugins/pinia.js' }), tailwind()]
+  integrations: [vue({ appEntrypoint: '/src/plugins/pinia.js' }), tailwind({
+    config: './tailwind.config.mjs'
+  })]
 });
