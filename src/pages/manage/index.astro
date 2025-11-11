@@ -1,10 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import UserDashboard from '../../components/dashboard/UserDashboard.vue';
+import AdminDashboard from '../../components/manage/AdminDashboard.vue';
 ---
 
-<Layout title="User Dashboard - CCSLR St Joseph">
-  <UserDashboard client:load />
+<Layout title="Admin Dashboard - CCSLR St Joseph">
+  <AdminDashboard client:load />
 </Layout>
 
 <script is:inline>
@@ -23,9 +23,9 @@ import UserDashboard from '../../components/dashboard/UserDashboard.vue';
   }
 
   const isAuthenticated = !!token;
-  const isPlayer = userRole === 'player';
+  const isAdminOrStaff = ['admin', 'president', 'staff', 'coach'].includes(userRole);
 
-  if (!isAuthenticated) {
-    window.location.href = '/oops'; // Redirect to oops page if not authenticated
+  if (!isAuthenticated || !isAdminOrStaff) {
+    window.location.href = '/oops'; // Redirect to oops page if not authenticated or not authorized
   }
 </script>

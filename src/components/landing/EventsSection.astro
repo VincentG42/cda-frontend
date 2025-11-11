@@ -1,53 +1,39 @@
 ---
-const events = [
-  {
-    id: 1,
-    title: 'Spring Championship Tournament',
-    date: 'March 15, 2024',
-    time: '9:00 AM',
-    location: 'St Joseph Sports Complex',
-    type: 'tournament',
-    participants: 8,
-    description: 'Annual spring tournament featuring teams from across the region.',
-  },
-  {
-    id: 2,
-    title: 'Youth Training Camp',
-    date: 'March 22, 2024',
-    time: '2:00 PM',
-    location: 'Main Gymnasium',
-    type: 'training',
-    participants: 24,
-    description: 'Intensive training session for youth players aged 12-16.',
-  },
-  {
-    id: 3,
-    title: 'Community Basketball Night',
-    date: 'March 29, 2024',
-    time: '7:00 PM',
-    location: 'Outdoor Courts',
-    type: 'social',
-    participants: 40,
-    description: 'Fun community event with games, food, and prizes for all ages.',
-  },
-  {
-    id: 4,
-    title: 'Skills Development Workshop',
-    date: 'April 5, 2024',
-    time: '10:00 AM',
-    location: 'Training Facility',
-    type: 'training',
-    participants: 16,
-    description: 'Advanced skills workshop focusing on shooting and ball handling.',
-  },
-];
+const API_URL = import.meta.env.PUBLIC_API_URL;
+let rawEvents = [];
+
+try {
+    const response = await fetch(`${API_URL}/api/events`);
+    if (response.ok) {
+        const json = await response.json();
+        // Les ressources API de Laravel enveloppent souvent les résultats dans un objet 'data'
+        rawEvents = json.data || []; 
+    } else {
+        console.error(`Error fetching events: ${response.statusText}`);
+    }
+} catch (e) {
+    console.error(`Failed to connect to API to fetch events: ${e.message}`);
+}
+
+const formatDate = (isoString) => new Date(isoString).toLocaleDateString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' });
+const formatTime = (isoString) => new Date(isoString).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+const events = rawEvents.map(event => ({
+    id: event.id,
+    title: event.title,
+    date: formatDate(event.start_at),
+    time: formatTime(event.start_at),
+    location: event.place,
+    type: 'social', // Type par défaut car non fourni par l'API
+    description: event.additionnal_info || 'Pas de description supplémentaire.',
+}));
 
 const getEventTypeColor = (type) => {
   switch (type) {
     case 'tournament':
-      return 'bg-[#FF7F11] text-white';
+      return 'bg-secondary text-white';
     case 'training':
-      return 'bg-[#176A2B] text-white';
+      return 'bg-primary text-white';
     case 'social':
       return 'bg-blue-500 text-white';
     default:
@@ -55,14 +41,22 @@ const getEventTypeColor = (type) => {
   }
 };
 
-const featuredEvent = events[0];
-const upcomingEvents = events.slice(1, 4);
+const featuredEvent = events.length > 0 ? events[0] : {
+    id: 0,
+    title: 'Aucun événement à la une',
+    date: '',
+    time: '',
+    location: '',
+    type: 'default',
+    description: 'Revenez plus tard pour de nouveaux événements.',
+};
+const upcomingEvents = events.length > 1 ? events.slice(1, 4) : [];
 ---
 
 <section id="events" class="py-20 bg-gray-50 min-h-screen">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-[#176A2B] mb-4" style="font-family: Lato">Prochains événements</h2>
+      <h2 class="text-4xl md:text-5xl font-bold text-primary mb-4" style="font-family: Lato">Prochains événements</h2>
       <p class="text-xl text-gray-600 max-w-3xl mx-auto">
         Join us for exciting tournaments, training sessions, and community events. 
         There's something for every basketball enthusiast!
@@ -71,7 +65,7 @@ const upcomingEvents = events.slice(1, 4);
 
     <div class="flex flex-col">
       <!-- Featured Event Banner -->
-      <div class="bg-gradient-to-r from-[#176A2B] to-[#FF7F11] rounded-2xl p-8 mb-6 text-white relative overflow-hidden">
+      <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 mb-6 text-white relative overflow-hidden">
         <div class="relative z-10">
           <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div class="flex-1">
@@ -133,15 +127,15 @@ const upcomingEvents = events.slice(1, 4);
 
               <div class="space-y-2 mb-4">
                 <div class="flex items-center text-gray-700 text-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-[#176A2B]"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-primary"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
                   <span style="font-family: Lato">{event.date}</span>
                 </div>
                 <div class="flex items-center text-gray-700 text-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-[#176A2B]"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-primary"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                   <span style="font-family: Lato">{event.time}</span>
                 </div>
                 <div class="flex items-center text-gray-700 text-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-[#176A2B]"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-primary"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                   <span style="font-family: Lato">{event.location}</span>
                 </div>
               </div>

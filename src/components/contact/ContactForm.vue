@@ -1,6 +1,6 @@
 <template>
   <div class="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-12">
-    <h2 class="text-3xl md:text-4xl font-bold text-center text-[#176A2B] mb-2" style="font-family: Lato">Contactez-nous</h2>
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-primary mb-2" style="font-family: Lato">Contactez-nous</h2>
     <p class="text-center text-gray-600 mb-8 md:mb-12">Une question, une suggestion ? N'hésitez pas.</p>
 
     <div v-if="success" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-lg">
@@ -17,23 +17,23 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
           <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
-          <input type="text" id="firstName" v-model="form.firstName" required class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-[#FF7F11] focus:border-[#FF7F11] transition">
+          <input type="text" id="firstName" v-model="form.firstName" required class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-secondary focus:border-secondary transition">
         </div>
         <div>
           <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
-          <input type="text" id="lastName" v-model="form.lastName" required class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-[#FF7F11] focus:border-[#FF7F11] transition">
+          <input type="text" id="lastName" v-model="form.lastName" required class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-secondary focus:border-secondary transition">
         </div>
       </div>
       <div class="mb-6">
         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-        <input type="email" id="email" v-model="form.email" required class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-[#FF7F11] focus:border-[#FF7F11] transition">
+        <input type="email" id="email" v-model="form.email" required class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-secondary focus:border-secondary transition">
       </div>
       <div class="mb-8">
         <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
-        <textarea id="message" v-model="form.message" required rows="5" class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-[#FF7F11] focus:border-[#FF7F11] transition"></textarea>
+        <textarea id="message" v-model="form.message" required rows="5" class="w-full px-4 py-3 bg-gray-50 rounded-lg border-gray-200 focus:ring-secondary focus:border-secondary transition"></textarea>
       </div>
       <div class="text-center">
-        <button type="submit" :disabled="isLoading" class="bg-gradient-to-r from-[#176A2B] to-green-600 text-white font-bold py-4 px-10 rounded-full hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+        <button type="submit" :disabled="isLoading" class="bg-gradient-to-r from-primary to-primary/80 text-white font-bold py-4 px-10 rounded-full hover:from-primary/80 hover:to-primary/60 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
           <span v-if="isLoading" class="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full"></span>
           <span v-else>Envoyer le Message</span>
         </button>

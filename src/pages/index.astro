@@ -7,7 +7,7 @@ import Footer from '../components/layout/Footer.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="CCSLR St Joseph Basketball Club">
+<Layout title={import.meta.env.PUBLIC_APP_NAME}>
   <NavigationBar />
   <main>
     <HeroSection />

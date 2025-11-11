@@ -1,25 +1,38 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-
-const API_BASE_URL = 'https://backend-basketclub-app.ddev.site/api';
+import { useApi } from '../composables/useApi';
 
 export const useSeasonsStore = defineStore('seasons', () => {
   const seasons = ref([]);
-  const loading = ref(false);
+  const isLoading = ref(false);
+  const error = ref(null);
+
+  const { fetchApi } = useApi();
+
+  const setLoading = (value) => {
+    isLoading.value = value;
+  };
+
+  const setError = (value) => {
+    error.value = value;
+  };
+
+  const setSeasons = (newSeasons) => {
+    seasons.value = newSeasons;
+  };
 
   async function fetchSeasons() {
-    if (seasons.value.length > 0) return;
-    loading.value = true;
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/seasons`);
-      if (!response.ok) throw new Error('Failed to fetch seasons');
-      seasons.value = await response.json();
+      const response = await fetchApi('seasons');
+      setSeasons(response.data);
     } catch (e) {
-      console.error(e);
+      setError(e.message);
     } finally {
-      loading.value = false;
+      setLoading(false);
     }
   }
 
-  return { seasons, fetchSeasons };
+  return { seasons, isLoading, error, setLoading, setError, setSeasons, fetchSeasons };
 });

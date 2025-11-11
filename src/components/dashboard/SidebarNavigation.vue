@@ -7,14 +7,14 @@
         <li v-for="item in navigationItems" :key="item.id">
           <button @click="$emit('section-change', item.id)" :class="[
             'w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200',
-            activeSection === item.id ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+            activeSection === item.id ? 'bg-primary/10 text-primary border border-primary/20' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
           ]">
-            <component :is="item.icon" :class="[activeSection === item.id ? 'text-blue-600' : 'text-gray-500']" />
+            <component :is="item.icon" :class="[activeSection === item.id ? 'text-primary' : 'text-gray-500']" />
             <div class="flex-1">
-              <p :class="['text-sm font-medium', activeSection === item.id ? 'text-blue-700' : 'text-gray-900']">
+              <p :class="['text-sm font-medium', activeSection === item.id ? 'text-primary' : 'text-gray-900']">
                 {{ item.label }}
               </p>
-              <p :class="['text-xs', activeSection === item.id ? 'text-blue-600' : 'text-gray-500']">
+              <p :class="['text-xs', activeSection === item.id ? 'text-primary' : 'text-gray-500']">
                 {{ item.description }}
               </p>
             </div>

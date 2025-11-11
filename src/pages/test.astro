@@ -1,0 +1,27 @@
+---
+const primaryColor = import.meta.env.PUBLIC_PRIMARY_COLOR;
+const secondaryColor = import.meta.env.PUBLIC_SECONDARY_COLOR;
+const appName = import.meta.env.PUBLIC_APP_NAME;
+const apiUrl = import.meta.env.PUBLIC_API_URL;
+
+console.log('Test Page - Primary Color:', primaryColor);
+console.log('Test Page - Secondary Color:', secondaryColor);
+console.log('Test Page - App Name:', appName);
+console.log('Test Page - API URL:', apiUrl);
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Variable Test</title>
+</head>
+<body>
+    <h1>Environment Variable Test</h1>
+    <p>PUBLIC_PRIMARY_COLOR: {primaryColor}</p>
+    <p>PUBLIC_SECONDARY_COLOR: {secondaryColor}</p>
+    <p>PUBLIC_APP_NAME: {appName}</p>
+    <p>PUBLIC_API_URL: {apiUrl}</p>
+    <p>Check server terminal for console logs.</p>
+</body>
+</html>

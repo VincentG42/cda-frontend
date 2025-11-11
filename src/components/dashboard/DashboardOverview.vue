@@ -83,22 +83,22 @@ const fetchDashboardData = async () => {
   try {
     const response = await fetchApi('me/dashboard');
     stats.value = [
-      { label: 'Matchs Joués', value: response.matchesPlayed, icon: Trophy, color: 'bg-blue-500' },
-      { label: 'Victoires', value: response.wins, icon: Medal, color: 'bg-green-500' },
-      { label: 'Prochain Match', value: response.nextMatchDate, icon: Clock, color: 'bg-yellow-500' },
+      { label: 'Matchs Joués', value: response.matchesPlayed, icon: Trophy, color: 'bg-primary' },
+      { label: 'Victoires', value: response.wins, icon: Medal, color: 'bg-primary' },
+      { label: 'Prochain Match', value: response.nextMatchDate !== 'N/A' ? new Date(response.nextMatchDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A', icon: Clock, color: 'bg-yellow-500' },
       { label: 'Points Moyens', value: response.avgPoints, icon: Users, color: 'bg-purple-500' },
     ];
     upcomingMatches.value = response.upcomingMatches.map(match => ({
       id: match.id,
       homeTeam: match.home_team.name,
       awayTeam: match.away_team.name,
-      date: new Date(match.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }),
-      time: match.time,
+      date: new Date(match.happens_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }),
+      time: new Date(match.happens_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
     }));
     recentEvents.value = response.recentEvents.map(event => ({
       id: event.id,
       title: event.title,
-      date: new Date(event.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }),
+      date: new Date(event.start_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }),
     }));
   } catch (e) {
     error.value = e.message;

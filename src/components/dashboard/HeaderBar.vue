@@ -2,8 +2,8 @@
   <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-4">
-        <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center overflow-hidden">
-          <div class="w-10 h-10 bg-blue-700 rounded-md flex items-center justify-center">
+        <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
+          <div class="w-10 h-10 bg-primary rounded-md flex items-center justify-center filter brightness-90">
             <span class="text-white font-bold text-lg">CC</span>
           </div>
         </div>

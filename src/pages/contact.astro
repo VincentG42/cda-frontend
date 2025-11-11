@@ -5,7 +5,7 @@ import Footer from '../components/layout/Footer.astro';
 import ContactForm from '../components/contact/ContactForm.vue';
 ---
 
-<Layout title="Contact - CCSLR St Joseph">
+<Layout title={`Contact - ${import.meta.env.PUBLIC_APP_NAME}`}>
   <div class="bg-gray-50">
     <NavigationBar />
     <main class="py-20 md:py-32">

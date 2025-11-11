@@ -1,25 +1,38 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-
-const API_BASE_URL = 'https://backend-basketclub-app.ddev.site/api';
+import { useApi } from '../composables/useApi';
 
 export const useCategoriesStore = defineStore('categories', () => {
   const categories = ref([]);
-  const loading = ref(false);
+  const isLoading = ref(false);
+  const error = ref(null);
+
+  const { fetchApi } = useApi();
+
+  const setLoading = (value) => {
+    isLoading.value = value;
+  };
+
+  const setError = (value) => {
+    error.value = value;
+  };
+
+  const setCategories = (newCategories) => {
+    categories.value = newCategories;
+  };
 
   async function fetchCategories() {
-    if (categories.value.length > 0) return; // Don't re-fetch if already populated
-    loading.value = true;
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/categories`);
-      if (!response.ok) throw new Error('Failed to fetch categories');
-      categories.value = await response.json();
+      const response = await fetchApi('categories'); // Assuming fetchApi is available globally or imported
+      setCategories(response.data);
     } catch (e) {
-      console.error(e);
+      setError(e.message);
     } finally {
-      loading.value = false;
+      setLoading(false);
     }
   }
 
-  return { categories, fetchCategories };
+  return { categories, isLoading, error, setLoading, setError, setCategories, fetchCategories };
 });

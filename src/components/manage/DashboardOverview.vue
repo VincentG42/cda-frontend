@@ -79,7 +79,7 @@ const fetchDashboardData = async () => {
     ];
     upcomingEvents.value = (response.upcomingEvents || []).map(event => ({
       name: event.title,
-      date: new Date(event.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+      date: new Date(event.start_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
     }));
   } catch (e) {
     error.value = e.message;

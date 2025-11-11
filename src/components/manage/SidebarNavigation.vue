@@ -44,6 +44,7 @@ const navigationItems = [
   { id: 'users', label: 'Gestion des Utilisateurs', icon: Users, description: 'Licenciés' },
   { id: 'teams', label: 'Gestion des Équipes', icon: Shield, description: 'Équipes et coaches' },
   { id: 'matches', label: 'Gestion des Matchs', icon: Calendar, description: 'Calendrier et résultats' },
-  { id: 'events', label: 'Événements Publics', icon: Megaphone, description: 'Communication' }
+  { id: 'events', label: 'Événements Publics', icon: Megaphone, description: 'Communication' },
+  { id: 'categories', label: 'Gestion des Catégories', icon: Shield, description: 'Catégories d\'équipes' }
 ];
 </script>

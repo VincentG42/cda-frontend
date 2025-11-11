@@ -11,15 +11,15 @@ const navItems = [
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-20">
       <a href="/" class="flex items-center space-x-3">
-        <div class="w-12 h-12 bg-gradient-to-br from-[#176A2B] to-[#FF7F11] rounded-full flex items-center justify-center shadow-lg">
-          <span class="text-white font-bold text-xs">CCSLR</span>
+        <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg">
+          <span class="text-white font-bold text-xs">{import.meta.env.PUBLIC_APP_SHORT_NAME}</span>
         </div>
       </a>
 
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
         {navItems.map(item => (
-          <button data-section-id={item.id} class="nav-link font-medium transition-colors hover:text-[#FF7F11]">
+          <button data-section-id={item.id} class="nav-link font-medium transition-colors hover:text-secondary">
             {item.label}
           </button>
         ))}
@@ -37,7 +37,7 @@ const navItems = [
     <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
       <div class="px-4 py-4 space-y-4">
         {navItems.map(item => (
-          <button data-section-id={item.id} class="nav-link block w-full text-left text-gray-700 font-medium hover:text-[#FF7F11] transition-colors">
+          <button data-section-id={item.id} class="nav-link block w-full text-left text-gray-700 font-medium hover:text-secondary transition-colors">
             {item.label}
           </button>
         ))}

@@ -12,19 +12,19 @@
     <div v-else-if="team">
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
         <h3 class="text-xl font-semibold text-gray-900 mb-4">{{ team.name }}</h3>
-        <p class="text-gray-600 mb-4">Coach: {{ team.coach ? team.coach.name : 'N/A' }}</p>
+        <p class="text-gray-600 mb-4">Coach: {{ team.coach ? team.coach.firstname + ' ' + team.coach.lastname : 'N/A' }}</p>
         <p class="text-gray-600">Catégorie: {{ team.category ? team.category.name : 'N/A' }}</p>
       </div>
 
       <h3 class="text-xl font-semibold text-gray-900 mb-4">Joueurs</h3>
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <ul class="space-y-4">
-          <li v-for="player in team.players" :key="player.id" class="flex items-center space-x-3">
+          <li v-for="player in team.users" :key="player.id" class="flex items-center space-x-3">
             <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
             <div>
-              <p class="font-medium text-gray-800">{{ player.name }}</p>
+              <p class="font-medium text-gray-800">{{ player.firstname }} {{ player.lastname }}</p>
               <p class="text-sm text-gray-500">{{ player.position || 'Joueur' }}</p>
             </div>
           </li>

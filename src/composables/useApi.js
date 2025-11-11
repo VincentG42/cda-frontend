@@ -20,11 +20,23 @@ export function useApi() {
       headers,
     });
 
+    // Handle 204 No Content
+    if (response.status === 204) {
+      return null; // Or an empty object, depending on desired behavior
+    }
+
     if (!response.ok) {
       if (response.status === 401) {
         authStore.logout();
       }
-      const errorData = await response.json();
+      // Try to parse error as JSON, but handle if it's not
+      let errorData = {};
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        // If response is not JSON, use statusText
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
       throw new Error(errorData.message || `API Error: ${response.statusText}`);
     }
 
