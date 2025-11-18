@@ -1,19 +1,19 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-export const useStatsModalStore = defineStore('statsModal', () => {
+export const useTeamStatsModalStore = defineStore('teamStatsModal', () => {
   const isOpen = ref(false);
-  const playerId = ref(null);
+  const teamId = ref(null);
 
   const openModal = (id) => {
-    playerId.value = id;
+    teamId.value = id;
     isOpen.value = true;
   };
 
   const closeModal = () => {
     isOpen.value = false;
-    playerId.value = null;
+    teamId.value = null;
   };
 
-  return { isOpen, playerId, openModal, closeModal };
+  return { isOpen, teamId, openModal, closeModal };
 });

@@ -53,7 +53,7 @@
               <td class="py-3 px-4">{{ user.email }}</td>
               <td class="py-3 px-4">
                 <div class="flex items-center justify-end space-x-2">
-                  <button @click="statsModalStore.openModal('playerStats', { playerId: user.id })" class="p-1 text-purple-600 hover:bg-purple-50 rounded" title="Voir les statistiques">
+                  <button @click="statsModalStore.openModal(user.id)" class="p-1 text-purple-600 hover:bg-purple-50 rounded" title="Voir les statistiques">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
                   </button>
                   <button @click="openEditModal(user)" class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="Modifier">
@@ -86,6 +86,12 @@
     <template #footer>
       <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 mr-2" @click="cancelDelete">Annuler</button>
       <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" :disabled="deleteConfirmationInput !== 'supprimer'" @click="executeDelete">Supprimer</button>
+    </template>
+  </Modal>
+
+  <Modal :show="statsModalStore.isOpen" title="Statistiques du Joueur" @close="statsModalStore.closeModal">
+    <template #body>
+      <PlayerStatsDashboard v-if="statsModalStore.playerId" :key="statsModalStore.playerId" :player-id="statsModalStore.playerId" />
     </template>
   </Modal>
 </template>

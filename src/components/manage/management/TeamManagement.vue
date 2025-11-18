@@ -19,7 +19,7 @@
       <p>{{ teamsStore.error }}</p>
     </div>
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="team in teamsStore.teams" :key="team.id" @click="statsModalStore.openModal('teamStats', { teamId: team.id })" class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 block cursor-pointer">
+      <div v-for="team in teamsStore.teams" :key="team.id" @click="teamStatsModalStore.openModal(team.id)" class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 block cursor-pointer">
         <div class="flex items-center justify-between mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           <div class="flex space-x-2">
@@ -70,19 +70,26 @@
       <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" :disabled="deleteConfirmationInput !== 'supprimer'" @click="executeDelete">Supprimer</button>
     </template>
   </Modal>
+
+  <Modal :show="teamStatsModalStore.isOpen" title="Statistiques de l'Équipe" @close="teamStatsModalStore.closeModal">
+    <template #body>
+      <TeamStatsDashboard v-if="teamStatsModalStore.teamId" :key="teamStatsModalStore.teamId" :team-id="teamStatsModalStore.teamId" />
+    </template>
+  </Modal>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useApi } from '../../../composables/useApi.js';
 import { useTeamsStore } from '../../../stores/teamsStore';
-import { useStatsModalStore } from '../../../stores/statsModalStore';
+import { useTeamStatsModalStore } from '../../../stores/teamStatsModalStore';
 import Modal from '../../common/Modal.vue';
 import TeamForm from '../forms/TeamForm.vue';
+import TeamStatsDashboard from '../../stats/TeamStatsDashboard.vue';
 
 const { fetchApi } = useApi();
 const teamsStore = useTeamsStore();
-const statsModalStore = useStatsModalStore();
+const teamStatsModalStore = useTeamStatsModalStore();
 
 const showForm = ref(false);
 const currentEditingTeam = ref(null);
