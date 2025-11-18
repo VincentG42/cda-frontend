@@ -6,10 +6,14 @@ export function useApi() {
 
   const fetchApi = async (endpoint, options = {}) => {
     const headers = {
-      'Content-Type': 'application/json',
       'Accept': 'application/json',
       ...options.headers,
     };
+
+    // Only set Content-Type if not FormData, as browser handles it for FormData
+    if (!(options.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
 
     if (authStore.token) {
       headers['Authorization'] = `Bearer ${authStore.token}`;
@@ -34,10 +38,18 @@ export function useApi() {
       try {
         errorData = await response.json();
       } catch (e) {
-        // If response is not JSON, use statusText
         throw new Error(`API Error: ${response.status} ${response.statusText}`);
       }
-      throw new Error(errorData.message || `API Error: ${response.statusText}`);
+
+      let errorMessage = errorData.message || `API Error: ${response.statusText}`;
+
+      if (response.status === 422 && errorData.errors) {
+        errorMessage += '\nValidation Errors:';
+        for (const field in errorData.errors) {
+          errorMessage += `\n- ${field}: ${errorData.errors[field].join(', ')}`;
+        }
+      }
+      throw new Error(errorMessage);
     }
 
     return response.json();

@@ -18,6 +18,7 @@
           <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nom</th>
           <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
           <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">N° Licence</th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,11 @@
           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ user.firstname }} {{ user.lastname }}</td>
           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ user.email }}</td>
           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ user.licence_number }}</td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <a :href="`/admin/players/${user.id}`" class="text-blue-600 hover:text-blue-900">
+              Voir le profil
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>

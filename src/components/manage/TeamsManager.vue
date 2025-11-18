@@ -32,7 +32,9 @@
         <tbody>
           <tr v-for="team in teamsStore.teams" :key="team.id">
             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <p class="text-gray-900 whitespace-no-wrap">{{ team.name }}</p>
+              <a :href="`/admin/teams/${team.id}`" class="text-blue-600 hover:text-blue-900 font-bold">
+                {{ team.name }}
+              </a>
             </td>
             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
               <p class="text-gray-900 whitespace-no-wrap">{{ team.category?.name || 'N/A' }}</p>

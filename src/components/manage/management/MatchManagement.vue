@@ -21,7 +21,11 @@
     <div v-else class="space-y-8">
       <div v-for="group in groupedMatches" :key="group.formattedDate" class="space-y-4">
         <h2 class="text-base font-semibold text-gray-900 tracking-wide uppercase pb-2 border-b border-gray-200">{{ group.formattedDate }}</h2>
-        <div v-for="match in group.matches" :key="match.id" class="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+        <div v-for="match in group.matches" :key="match.id" class="flex items-center justify-between p-4 rounded-lg border transition-colors duration-200" :class="{
+          'bg-green-50 border-green-200 hover:bg-green-100': match.is_victory === true,
+          'bg-red-50 border-red-200 hover:bg-red-100': match.is_victory === false,
+          'border-gray-100 hover:bg-gray-50': match.is_victory == null
+        }">
           <div class="flex items-center space-x-4">
             <div class="flex items-center space-x-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -43,9 +47,22 @@
               </template>
             </div>
           </div>
+
+          <!-- Score Display -->
+          <div v-if="match.team_score != null" class="text-center">
+            <div class="font-bold text-lg" :class="{
+              'text-green-700': match.is_victory,
+              'text-red-700': match.is_victory === false,
+              'text-gray-800': match.is_victory == null
+            }">
+              {{ match.team_score }} - {{ match.opponent_score }}
+            </div>
+            <div v-if="match.is_victory" class="text-xs font-semibold text-green-600">VICTOIRE</div>
+            <div v-else-if="match.is_victory === false" class="text-xs font-semibold text-red-600">DÉFAITE</div>
+          </div>
           
           <div class="flex items-center space-x-2">
-            <button class="flex items-center space-x-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">
+            <button @click="openResultModal(match)" class="flex items-center space-x-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
               <span class="text-sm">Résultats</span>
             </button>
@@ -78,6 +95,9 @@
       <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" :disabled="deleteConfirmationInput !== 'supprimer'" @click="executeDelete">Supprimer</button>
     </template>
   </Modal>
+
+  <!-- Match Result Modal -->
+  <MatchResultModal :show="showResultModal" :match="selectedMatch" @close="closeResultModal" />
 </template>
 
 <script setup>
@@ -86,6 +106,7 @@ import { useApi } from '../../../composables/useApi.js';
 import { useMatchesStore } from '../../../stores/matchesStore';
 import Modal from '../../common/Modal.vue';
 import MatchForm from '../forms/MatchForm.vue';
+import MatchResultModal from '../MatchResultModal.vue'; // Import the new modal component
 
 const { fetchApi } = useApi();
 const matchesStore = useMatchesStore();
@@ -96,17 +117,22 @@ const showDeleteConfirm = ref(false);
 const matchToDelete = ref(null);
 const deleteConfirmationInput = ref('');
 
+const showResultModal = ref(false); // New ref for result modal visibility
+const selectedMatch = ref(null); // New ref to hold the match for the result modal
+
 const groupedMatches = computed(() => {
   if (!matchesStore.matches) return [];
 
   const groups = matchesStore.matches.reduce((acc, match) => {
     const matchDate = new Date(match.happens_at);
-    const dateKey = matchDate.toISOString().split('T')[0]; // 'YYYY-MM-DD' as a unique key
+    const year = matchDate.getFullYear();
+    const month = matchDate.getMonth(); // 0-indexed
+    const dateKey = `${year}-${month}`; // 'YYYY-M' as a unique key
 
     if (!acc[dateKey]) {
       acc[dateKey] = {
         // Format the date for display in the header
-        formattedDate: matchDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
+        formattedDate: matchDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }),
         matches: []
       };
     }
@@ -122,7 +148,7 @@ const fetchMatches = async () => {
   matchesStore.setLoading(true);
   matchesStore.setError(null);
   try {
-    const response = await fetchApi('encounters'); // Assuming 'encounters' is the endpoint for matches
+    const response = await fetchApi('encounters?filter=all'); // Fetch all encounters, including past ones
     matchesStore.setMatches(response.data);
   } catch (e) {
     matchesStore.setError(e.message);
@@ -144,6 +170,17 @@ const openEditModal = (match) => {
 const closeModal = () => {
   showForm.value = false;
   currentEditingMatch.value = null;
+};
+
+const openResultModal = (match) => {
+  selectedMatch.value = match;
+  showResultModal.value = true;
+};
+
+const closeResultModal = () => {
+  showResultModal.value = false;
+  selectedMatch.value = null;
+  fetchMatches(); // Refresh matches after result update/import
 };
 
 const handleMatchFormSubmit = async (formData) => {

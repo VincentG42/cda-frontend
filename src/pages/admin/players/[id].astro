@@ -1,0 +1,19 @@
+---
+// src/pages/admin/players/[id].astro
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import PlayerProfile from '../../../components/manage/PlayerProfile.vue';
+
+export async function getStaticPaths() {
+  // This tells Astro to generate a single placeholder path.
+  // In a real application, you might fetch all player/team IDs from your API
+  // to pre-render them, or configure Astro for SSR.
+  // For now, this allows the route to compile and handle dynamic IDs.
+  return [{ params: { id: 'placeholder' } }];
+}
+
+const { id } = Astro.params;
+---
+
+<AdminLayout title="Profil du Joueur">
+  <PlayerProfile userId={id} client:load />
+</AdminLayout>

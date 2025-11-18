@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, defineProps, defineEmits } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useApi } from '../../../composables/useApi.js';
 
 const props = defineProps({
