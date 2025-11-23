@@ -5,8 +5,8 @@ export const GET: APIRoute = async ({ request, cookies }) => {
     const token = cookies.get('auth_token')?.value;
 
     if (!token) {
-        return new Response(JSON.stringify({ message: 'No auth token found in cookies' }), {
-            status: 401,
+        return new Response(JSON.stringify(null), {
+            status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
     }
