@@ -40,6 +40,7 @@ defineEmits(['section-change']);
 
 const navigationItems = [
   { id: 'dashboard', label: 'Mon Tableau de Bord', icon: BarChart3, description: 'Vue d\'ensemble' },
+  { id: 'stats', label: 'Mes Statistiques', icon: BarChart3, description: 'Performances individuelles' },
   { id: 'team', label: 'Mon Équipe', icon: Shield, description: 'Infos et joueurs' },
   { id: 'matches', label: 'Mes Matchs', icon: Calendar, description: 'Calendrier et résultats' },
   { id: 'events', label: 'Événements du Club', icon: Megaphone, description: 'Actualités' }

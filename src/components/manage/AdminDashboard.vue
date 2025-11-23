@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useAuthStore } from '../../stores/authStore';
 import HeaderBar from './HeaderBar.vue';
 import SidebarNavigation from './SidebarNavigation.vue';
@@ -30,7 +30,7 @@ import SectionManager from './SectionManager.vue';
 const authStore = useAuthStore();
 
 const activeSection = ref('dashboard');
-const adminName = ref(authStore.user ? authStore.user.name : 'Admin'); // Use authenticated user's name
+const adminName = computed(() => authStore.user ? authStore.user.firstname : 'Admin');
 
 const handleLogout = () => {
   authStore.logout();

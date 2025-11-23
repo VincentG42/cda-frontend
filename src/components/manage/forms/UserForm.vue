@@ -24,11 +24,11 @@
       <label for="user_type_id" class="block text-sm font-medium text-gray-700">Type d'utilisateur</label>
       <Field name="user_type_id" as="select" id="user_type_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
         <option value="">Sélectionner un type</option>
-        <option value="1">Admin</option>
-        <option value="2">Président</option>
+        <option value="1">Licencié</option>
+        <option value="2">Coach</option>
         <option value="3">Staff</option>
-        <option value="4">Coach</option>
-        <option value="5">Licencié</option>
+        <option value="4">Président</option>
+        <option value="5">Admin</option>
       </Field>
       <ErrorMessage name="user_type_id" class="text-red-500 text-xs mt-1" />
     </div>

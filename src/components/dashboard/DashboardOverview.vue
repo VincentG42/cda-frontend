@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h2 class="text-2xl font-bold text-gray-900 mb-6">Mon Tableau de Bord</h2>
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold text-gray-900">Bienvenue, {{ userName }} !</h2>
+      <p class="text-gray-600">Voici un aperçu de votre activité.</p>
+    </div>
 
     <div v-if="isLoading" class="text-center py-8">
       <p class="text-gray-500">Chargement des données du tableau de bord...</p>
@@ -63,6 +66,10 @@
 <script setup>
 import { h, ref, onMounted } from 'vue';
 import { useApi } from '../../composables/useApi';
+
+  defineProps({
+    userName: String
+  });
 
 const { fetchApi } = useApi();
 

@@ -9,7 +9,8 @@
         <div class="p-6">
           <transition name="fade" mode="out-in">
             <div :key="activeSection" class="h-full">
-              <DashboardOverview v-if="activeSection === 'dashboard'" />
+              <DashboardOverview v-if="activeSection === 'dashboard'" :user-name="userName" />
+              <MyStatsWrapper v-else-if="activeSection === 'stats'" />
               <UserTeamInfo v-else-if="activeSection === 'team'" />
               <UserMatches v-else-if="activeSection === 'matches'" />
               <UserEvents v-else-if="activeSection === 'events'" />
@@ -22,11 +23,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useAuthStore } from '../../stores/authStore';
 import HeaderBar from './HeaderBar.vue';
 import SidebarNavigation from './SidebarNavigation.vue';
 import DashboardOverview from './DashboardOverview.vue';
+import MyStatsWrapper from '../profile/MyStatsWrapper.vue';
 import UserTeamInfo from './UserTeamInfo.vue';
 import UserMatches from './UserMatches.vue';
 import UserEvents from './UserEvents.vue';
@@ -34,7 +36,7 @@ import UserEvents from './UserEvents.vue';
 const authStore = useAuthStore();
 
 const activeSection = ref('dashboard');
-const userName = ref(authStore.user ? authStore.user.name : 'Utilisateur'); // Use authenticated user's name
+const userName = computed(() => authStore.user ? authStore.user.firstname : 'Utilisateur');
 
 const handleLogout = () => {
   authStore.logout();

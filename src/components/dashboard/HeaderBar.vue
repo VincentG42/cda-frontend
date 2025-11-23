@@ -2,20 +2,31 @@
   <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-4">
-        <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
-          <div class="w-10 h-10 bg-primary rounded-md flex items-center justify-center filter brightness-90">
-            <span class="text-white font-bold text-lg">CC</span>
+        <a href="/" class="flex items-center space-x-4 hover:opacity-80 transition-opacity">
+          <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
+            <div class="w-10 h-10 bg-primary rounded-md flex items-center justify-center filter brightness-90">
+              <span class="text-white font-bold text-lg">CC</span>
+            </div>
           </div>
-        </div>
-        <div>
-          <h1 class="text-xl font-bold text-gray-900">
-            CCSLR Saint Joseph
-          </h1>
-          <p class="text-sm text-gray-600">Espace Licencié</p>
-        </div>
+          <div>
+            <h1 class="text-xl font-bold text-gray-900">
+              CCSLR Saint Joseph
+            </h1>
+            <p class="text-sm text-gray-600">Espace Licencié</p>
+          </div>
+        </a>
       </div>
       
       <div class="flex items-center space-x-4">
+        <a href="/" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">
+          Accueil
+        </a>
+        <a v-if="canAccessAdminDashboard" href="/admin/dashboard" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">
+          Admin Dashboard
+        </a>
+
+        <div class="h-6 w-px bg-gray-300 mx-2"></div>
+
         <div class="text-right">
           <p class="text-sm font-medium text-gray-900">{{ userName }}</p>
           <p class="text-xs text-gray-500">Licencié</p>
@@ -31,8 +42,20 @@
 </template>
 
 <script setup>
-  defineProps({
-    userName: String
-  });
-  defineEmits(['logout']);
+import { computed } from 'vue';
+import { useAuthStore } from '../../stores/authStore';
+
+const authStore = useAuthStore();
+
+defineProps({
+  userName: String
+});
+
+defineEmits(['logout']);
+
+const canAccessAdminDashboard = computed(() => {
+  if (!authStore.user || !authStore.user.user_type_id) return false;
+  // 1: Player, 2: Coach, 3: Staff, 4: President, 5: Admin
+  return [2, 3, 4, 5].includes(Number(authStore.user.user_type_id));
+});
 </script>
