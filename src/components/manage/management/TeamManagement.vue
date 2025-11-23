@@ -71,7 +71,7 @@
     </template>
   </Modal>
 
-  <Modal :show="teamStatsModalStore.isOpen" title="Statistiques de l'Équipe" @close="teamStatsModalStore.closeModal">
+  <Modal :show="teamStatsModalStore.isOpen" title="Statistiques de l'Équipe" @close="teamStatsModalStore.closeModal" maxWidth="max-w-4xl">
     <template #body>
       <TeamStatsDashboard v-if="teamStatsModalStore.teamId" :key="teamStatsModalStore.teamId" :team-id="teamStatsModalStore.teamId" />
     </template>

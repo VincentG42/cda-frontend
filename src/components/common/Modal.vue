@@ -1,7 +1,7 @@
 <template>
   <Transition name="modal">
     <div v-if="show" class="modal-mask fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="$emit('close')">
-      <div class="modal-container bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 p-6 relative max-h-[90vh] overflow-y-auto" @click.stop>
+      <div :class="['modal-container bg-white rounded-lg shadow-xl w-full mx-4 p-6 relative max-h-[90vh] overflow-y-auto', maxWidth]" @click.stop>
         <button class="modal-close-button absolute top-3 right-3 text-gray-500 hover:text-gray-700" @click="$emit('close')">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
@@ -35,6 +35,10 @@ const props = defineProps({
   title: {
     type: String,
     default: 'Modal'
+  },
+  maxWidth: {
+    type: String,
+    default: 'max-w-lg'
   }
 });
 

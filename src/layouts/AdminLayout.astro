@@ -9,24 +9,5 @@ const { title } = Astro.props;
 ---
 
 <MainLayout title={title}>
-    <div class="flex h-screen bg-gray-100">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-gray-800 text-white p-4">
-            <h2 class="text-xl font-bold mb-4">Admin Panel</h2>
-            <nav>
-                <ul>
-                    <li><a href="/admin/teams" class="block py-2 px-4 rounded hover:bg-gray-700">Teams</a></li>
-                    <!-- Other admin links can go here -->
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <div class="flex-1 p-10">
-            <h1 class="text-2xl font-bold mb-6">{title}</h1>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <slot />
-            </div>
-        </div>
-    </div>
+    <slot />
 </MainLayout>
