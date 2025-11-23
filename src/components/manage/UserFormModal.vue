@@ -41,14 +41,19 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useUsersStore } from '../../stores/usersStore';
+import type { User } from '../../types';
 
-const emit = defineEmits(['close', 'user-created']);
+const emit = defineEmits<{
+  (e: 'close'): void;
+  (e: 'user-created'): void;
+}>();
+
 const usersStore = useUsersStore();
 
-const formData = ref({
+const formData = ref<Partial<User>>({
   firstname: '',
   lastname: '',
   email: '',
@@ -56,8 +61,8 @@ const formData = ref({
   // Le mot de passe sera généré par le backend
 });
 
-const error = ref(null);
-const isSubmitting = ref(false);
+const error = ref<string | null>(null);
+const isSubmitting = ref<boolean>(false);
 
 const submitForm = async () => {
   error.value = null;
@@ -65,7 +70,7 @@ const submitForm = async () => {
   try {
     await usersStore.createUser(formData.value);
     emit('user-created');
-  } catch (e) {
+  } catch (e: any) {
     error.value = e.message || "Une erreur est survenue.";
   } finally {
     isSubmitting.value = false;

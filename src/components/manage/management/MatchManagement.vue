@@ -102,7 +102,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useApi } from '../../../composables/useApi.js';
+import { useApi } from '../../../composables/useApi';
 import { useMatchesStore } from '../../../stores/matchesStore';
 import Modal from '../../common/Modal.vue';
 import MatchForm from '../forms/MatchForm.vue';

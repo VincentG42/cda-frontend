@@ -10,7 +10,7 @@
       </button>
     </div>
 
-    <div v-if="teamsStore.loading" class="text-center">Loading...</div>
+    <div v-if="teamsStore.isLoading" class="text-center">Loading...</div>
     <div v-if="teamsStore.error" class="text-red-500 text-center">{{ teamsStore.error }}</div>
 
     <div v-if="teamsStore.teams.length > 0" class="bg-white shadow-md rounded-lg">
@@ -37,7 +37,9 @@
               </a>
             </td>
             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <p class="text-gray-900 whitespace-no-wrap">{{ team.category?.name || 'N/A' }}</p>
+              <p class="text-gray-900 whitespace-no-wrap">
+                {{ (typeof team.category === 'object' && team.category !== null) ? team.category.name : team.category || 'N/A' }}
+              </p>
             </td>
             <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
               <p class="text-gray-900 whitespace-no-wrap">{{ team.coach ? `${team.coach.firstname} ${team.coach.lastname}` : 'N/A' }}</p>
@@ -50,19 +52,19 @@
         </tbody>
       </table>
     </div>
-     <div v-else-if="!teamsStore.loading && !teamsStore.error" class="text-center text-gray-500 mt-6">
+     <div v-else-if="!teamsStore.isLoading && !teamsStore.error" class="text-center text-gray-500 mt-6">
       No teams found.
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import TeamFormModal from './TeamFormModal.vue';
 import { useTeamsStore } from '../../stores/teamsStore';
 
 const teamsStore = useTeamsStore();
-const isModalOpen = ref(false);
+const isModalOpen = ref<boolean>(false);
 
 const openModal = () => {
   isModalOpen.value = true;

@@ -1,31 +1,8 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import UserDashboard from '../../components/dashboard/UserDashboard.vue';
+import Layout from "../../layouts/Layout.astro";
+import UserDashboard from "../../components/dashboard/UserDashboard.vue";
 ---
 
 <Layout title="User Dashboard - CCSLR St Joseph">
   <UserDashboard client:load />
 </Layout>
-
-<script is:inline>
-  const token = localStorage.getItem('auth_token');
-  const userString = localStorage.getItem('auth_user');
-  let user = null;
-  let userRole = null;
-
-  if (userString) {
-    try {
-      user = JSON.parse(userString);
-      userRole = user?.user_type?.name;
-    } catch (e) {
-      console.error("Failed to parse user from localStorage", e);
-    }
-  }
-
-  const isAuthenticated = !!token;
-  const isPlayer = userRole === 'player';
-
-  if (!isAuthenticated) {
-    window.location.href = '/oops'; // Redirect to oops page if not authenticated
-  }
-</script>

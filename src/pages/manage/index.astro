@@ -1,31 +1,8 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import AdminDashboard from '../../components/manage/AdminDashboard.vue';
+import Layout from "../../layouts/Layout.astro";
+import AdminDashboard from "../../components/manage/AdminDashboard.vue";
 ---
 
 <Layout title="Admin Dashboard - CCSLR St Joseph">
   <AdminDashboard client:load />
 </Layout>
-
-<script is:inline>
-  const token = localStorage.getItem('auth_token');
-  const userString = localStorage.getItem('auth_user');
-  let user = null;
-  let userRole = null;
-
-  if (userString) {
-    try {
-      user = JSON.parse(userString);
-      userRole = user?.user_type?.name;
-    } catch (e) {
-      console.error("Failed to parse user from localStorage", e);
-    }
-  }
-
-  const isAuthenticated = !!token;
-  const isAdminOrStaff = ['admin', 'president', 'staff', 'coach'].includes(userRole);
-
-  if (!isAuthenticated || !isAdminOrStaff) {
-    window.location.href = '/oops'; // Redirect to oops page if not authenticated or not authorized
-  }
-</script>

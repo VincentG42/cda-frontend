@@ -80,7 +80,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useApi } from '../../../composables/useApi.js';
+import { useApi } from '../../../composables/useApi';
 import { useTeamsStore } from '../../../stores/teamsStore';
 import { useTeamStatsModalStore } from '../../../stores/teamStatsModalStore';
 import Modal from '../../common/Modal.vue';

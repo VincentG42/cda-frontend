@@ -20,7 +20,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useApi } from '../../composables/useApi.js';
+import { useApi } from '../../composables/useApi';
 import TeamStatsDashboard from '../stats/TeamStatsDashboard.vue';
 
 const props = defineProps({

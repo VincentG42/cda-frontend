@@ -62,7 +62,7 @@
 
 <script setup>
 import { h, ref, onMounted } from 'vue';
-import { useApi } from '../../composables/useApi.js';
+import { useApi } from '../../composables/useApi';
 
 const { fetchApi } = useApi();
 
@@ -88,14 +88,14 @@ const fetchDashboardData = async () => {
       { label: 'Prochain Match', value: response.nextMatchDate !== 'N/A' ? new Date(response.nextMatchDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'N/A', icon: Clock, color: 'bg-yellow-500' },
       { label: 'Points Moyens', value: response.avgPoints, icon: Users, color: 'bg-purple-500' },
     ];
-    upcomingMatches.value = response.upcomingMatches.map(match => ({
+    upcomingMatches.value = (response.upcomingMatches || []).map(match => ({
       id: match.id,
       homeTeam: match.home_team.name,
       awayTeam: match.away_team.name,
       date: new Date(match.happens_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }),
       time: new Date(match.happens_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
     }));
-    recentEvents.value = response.recentEvents.map(event => ({
+    recentEvents.value = (response.recentEvents || []).map(event => ({
       id: event.id,
       title: event.title,
       date: new Date(event.start_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }),

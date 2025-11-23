@@ -98,7 +98,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useApi } from '../../../composables/useApi.js';
+import { useApi } from '../../../composables/useApi';
 import { useUsersStore } from '../../../stores/usersStore';
 import { useStatsModalStore } from '../../../stores/statsModalStore';
 import Modal from '../../common/Modal.vue';

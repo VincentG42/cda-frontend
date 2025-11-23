@@ -50,39 +50,60 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { h, ref, onMounted } from 'vue';
-import { useApi } from '../../composables/useApi.js';
+import { useApi } from '../../composables/useApi';
+import type { DashboardStats } from '../../types';
 
 const { fetchApi } = useApi();
 
-const stats = ref([]);
-const upcomingEvents = ref([]);
-const isLoading = ref(true);
-const error = ref(null);
+interface StatItem {
+  label: string;
+  value: number;
+  icon: any;
+  color: string;
+}
 
-const Users = (props) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('path', { d: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' }), h('circle', { cx: '9', cy: '7', r: '4' }), h('path', { d: 'M22 21v-2a4 4 0 0 0-3-3.87' }), h('path', { d: 'M16 3.13a4 4 0 0 1 0 7.75' })]);
-const Shield = (props) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('path', { d: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' })]);
-const Calendar = (props) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('rect', { width: '18', height: '18', x: '3', y: '4', rx: '2', ry: '2' }), h('line', { x1: '16', x2: '16', y1: '2', y2: '6' }), h('line', { x1: '8', x2: '8', y1: '2', y2: '6' }), h('line', { x1: '3', x2: '21', y1: '10', y2: '10' })]);
-const Megaphone = (props) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('path', { d: 'm3 11 18-5v12L3 14v-3z' }), h('path', { d: 'M11.6 16.8a3 3 0 1 1-5.8-1.6' })]);
+const stats = ref<StatItem[]>([]);
+const upcomingEvents = ref<Array<{ name: string; date: string }>>([]);
+const isLoading = ref<boolean>(true);
+const error = ref<string | null>(null);
+
+const Users = (props: any) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('path', { d: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2' }), h('circle', { cx: '9', cy: '7', r: '4' }), h('path', { d: 'M22 21v-2a4 4 0 0 0-3-3.87' }), h('path', { d: 'M16 3.13a4 4 0 0 1 0 7.75' })]);
+const Shield = (props: any) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('path', { d: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' })]);
+const Calendar = (props: any) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('rect', { width: '18', height: '18', x: '3', y: '4', rx: '2', ry: '2' }), h('line', { x1: '16', x2: '16', y1: '2', y2: '6' }), h('line', { x1: '8', x2: '8', y1: '2', y2: '6' }), h('line', { x1: '3', x2: '21', y1: '10', y2: '10' })]);
+const Megaphone = (props: any) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '24', height: '24', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('path', { d: 'm3 11 18-5v12L3 14v-3z' }), h('path', { d: 'M11.6 16.8a3 3 0 1 1-5.8-1.6' })]);
 
 const fetchDashboardData = async () => {
   isLoading.value = true;
   error.value = null;
   try {
-    const response = await fetchApi('me/dashboard');
+    const response = await fetchApi<DashboardStats>('me/dashboard');
+    
+    if (!response) {
+        throw new Error('Réponse vide du serveur');
+    }
+
     stats.value = [
       { label: 'Total Licenciés', value: response.totalUsers, icon: Users, color: 'bg-blue-500' },
       { label: 'Équipes Actives', value: response.activeTeams, icon: Shield, color: 'bg-green-500' },
       { label: 'Matchs ce mois-ci', value: response.matchesThisMonth, icon: Calendar, color: 'bg-yellow-500' },
       { label: 'Événements prévus', value: response.upcomingEventsCount, icon: Megaphone, color: 'bg-purple-500' },
     ];
-    upcomingEvents.value = (response.upcomingEvents || []).map(event => ({
-      name: event.title,
-      date: new Date(event.start_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
-    }));
-  } catch (e) {
-    error.value = e.message;
+    
+    // Safety check for upcomingEvents
+    const events = response.upcomingEvents;
+    if (Array.isArray(events)) {
+        upcomingEvents.value = events.map(event => ({
+          name: event.title,
+          date: new Date(event.start_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }),
+        }));
+    } else {
+        console.warn('upcomingEvents is not an array:', events);
+        upcomingEvents.value = [];
+    }
+  } catch (e: any) {
+    error.value = e.message || "Une erreur est survenue";
   } finally {
     isLoading.value = false;
   }

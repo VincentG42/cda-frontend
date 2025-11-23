@@ -31,7 +31,7 @@ import { ref, computed } from 'vue';
 import Modal from '../common/Modal.vue';
 import MatchResultForm from './MatchResultForm.vue';
 import MatchRecapImporter from './MatchRecapImporter.vue'; // Will create this next
-import { useApi } from '../../composables/useApi.js';
+import { useApi } from '../../composables/useApi';
 
 const props = defineProps({
   show: {
@@ -40,7 +40,8 @@ const props = defineProps({
   },
   match: {
     type: Object,
-    required: true
+    required: false,
+    default: null
   }
 });
 

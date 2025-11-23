@@ -72,7 +72,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useApi } from '../../composables/useApi.js';
+import { useApi } from '../../composables/useApi';
 import PlayerStatsDashboard from '../stats/PlayerStatsDashboard.vue';
 import MatchPeriodStatsModal from './MatchPeriodStatsModal.vue';
 

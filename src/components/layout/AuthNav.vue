@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center space-x-8">
-    <template v-if="authStore.token && authStore.user">
+    <template v-if="authStore.user">
       <a v-if="canAccessAdminDashboard" href="/admin/dashboard" class="nav-link font-medium transition-colors hover:text-[#FF7F11]">
         Admin Dashboard
       </a>
@@ -36,7 +36,7 @@ const canAccessAdminDashboard = computed(() => {
 
 const canAccessPlayerDashboard = computed(() => {
   // Any logged-in user can access their personal dashboard
-  return !!authStore.token && !!authStore.user;
+  return !!authStore.user;
 });
 
 const handleLogout = () => {

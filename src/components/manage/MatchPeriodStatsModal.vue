@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { useApi } from '../../composables/useApi.js';
+import { useApi } from '../../composables/useApi';
 import Modal from '../common/Modal.vue';
 
 const props = defineProps({

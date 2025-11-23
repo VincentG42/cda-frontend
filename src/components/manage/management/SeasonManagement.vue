@@ -78,7 +78,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useApi } from '../../../composables/useApi.js';
+import { useApi } from '../../../composables/useApi';
 import { useSeasonsStore } from '../../../stores/seasonsStore';
 import Modal from '../../common/Modal.vue';
 import SeasonForm from '../forms/SeasonForm.vue';

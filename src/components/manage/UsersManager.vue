@@ -10,7 +10,7 @@
       </button>
     </div>
 
-    <div v-if="usersStore.loading">Chargement...</div>
+    <div v-if="usersStore.isLoading">Chargement...</div>
     <div v-if="usersStore.error" class="text-red-500">{{ usersStore.error }}</div>
     <table v-if="usersStore.users.length > 0" class="min-w-full leading-normal">
       <thead>
@@ -34,13 +34,13 @@
         </tr>
       </tbody>
     </table>
-     <div v-else-if="!usersStore.loading && !usersStore.error" class="text-center text-gray-500 mt-6">
+     <div v-else-if="!usersStore.isLoading && !usersStore.error" class="text-center text-gray-500 mt-6">
       Aucun licencié trouvé.
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import UserFormModal from './UserFormModal.vue';
 import { useUsersStore } from '../../stores/usersStore';
@@ -48,12 +48,13 @@ import { useUsersStore } from '../../stores/usersStore';
 const usersStore = useUsersStore();
 
 // Modal state and handlers
-const isModalOpen = ref(false);
+const isModalOpen = ref<boolean>(false);
 const openModal = () => { isModalOpen.value = true; };
 const closeModal = () => { isModalOpen.value = false; };
 const handleUserCreated = () => {
   closeModal();
-  // The store now handles refreshing the list automatically
+  // The store now handles refreshing the list automatically via optimistic update or we can trigger fetch
+  // usersStore.fetchUsers(); // Optional if we want to be sure
 };
 
 onMounted(() => {

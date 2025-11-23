@@ -66,7 +66,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useApi } from '../../composables/useApi.js';
+import { useApi } from '../../composables/useApi';
 
 const props = defineProps({
   match: {

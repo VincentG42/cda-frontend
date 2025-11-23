@@ -16,7 +16,7 @@
           <select id="category" v-model="form.category_id" required
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <option disabled value="">Please select one</option>
-            <option v-for="category in categories" :key="category.id" :value="category.id">
+            <option v-for="category in categoriesStore.categories" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
           </select>
@@ -28,7 +28,7 @@
           <select id="coach" v-model="form.coach_id" required
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <option disabled value="">Please select one</option>
-            <option v-for="coach in coaches" :key="coach.id" :value="coach.id">
+            <option v-for="coach in usersStore.users" :key="coach.id" :value="coach.id">
               {{ coach.firstname }} {{ coach.lastname }}
             </option>
           </select>
@@ -40,7 +40,7 @@
           <select id="season" v-model="form.season_id" required
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <option disabled value="">Please select one</option>
-            <option v-for="season in seasons" :key="season.id" :value="season.id">
+            <option v-for="season in seasonsStore.seasons" :key="season.id" :value="season.id">
               {{ season.name }}
             </option>
           </select>
@@ -75,39 +75,44 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
+import { useCategoriesStore } from '../../stores/categoriesStore';
+import { useSeasonsStore } from '../../stores/seasonsStore';
+import { useUsersStore } from '../../stores/usersStore';
+import { useTeamsStore } from '../../stores/teamsStore';
+import type { Team } from '../../types';
 
-const emits = defineEmits(['close', 'team-created']);
+const emit = defineEmits<{
+  (e: 'close'): void;
+  (e: 'team-created'): void;
+}>();
 
-const API_BASE_URL = 'https://backend-basketclub-app.ddev.site/api';
+const categoriesStore = useCategoriesStore();
+const seasonsStore = useSeasonsStore();
+const usersStore = useUsersStore();
+const teamsStore = useTeamsStore();
 
 // Form state
-const form = reactive({
+const form = reactive<Partial<Team> & { gender: string }>({
   name: '',
-  category_id: '',
-  coach_id: '',
-  season_id: '',
+  category_id: undefined,
+  coach_id: undefined,
+  season_id: undefined, // Will be mapped to backend expected format if needed, or just ID
   gender: 'Mixed',
 });
 
-// Data for dropdowns
-const categories = ref([]);
-const coaches = ref([]);
-const seasons = ref([]);
-const error = ref(null);
+const error = ref<string | null>(null);
+const isSubmitting = ref<boolean>(false);
 
 // Fetch data for selects
 const fetchDataForSelects = async () => {
   try {
-    const [catRes, coachRes, seasonRes] = await Promise.all([
-      fetch(`${API_BASE_URL}/categories`),
-      fetch(`${API_BASE_URL}/users`), // Assuming all users can be coaches for now
-      fetch(`${API_BASE_URL}/seasons`),
+    await Promise.all([
+      categoriesStore.fetchCategories(),
+      usersStore.fetchUsers(),
+      seasonsStore.fetchSeasons(),
     ]);
-    categories.value = await catRes.json();
-    coaches.value = await coachRes.json();
-    seasons.value = await seasonRes.json();
   } catch (e) {
     console.error('Failed to fetch data for form', e);
     error.value = 'Could not load data for the form. Please try again later.';
@@ -116,26 +121,25 @@ const fetchDataForSelects = async () => {
 
 const handleFormSubmit = async () => {
   error.value = null;
+  isSubmitting.value = true;
   try {
-    const response = await fetch(`${API_BASE_URL}/teams`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(form),
-    });
+    // Ensure IDs are numbers if they are bound as strings from select
+    const teamData = {
+        ...form,
+        category_id: Number(form.category_id),
+        coach_id: Number(form.coach_id),
+        // season_id might need to be handled depending on backend requirement, assuming it's part of the payload
+    };
+    
+    await teamsStore.createTeam(teamData as any); // Type assertion as Team type might need adjustment for creation payload
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create team.');
-    }
-
-    emits('team-created');
-    emits('close');
-  } catch (e) {
+    emit('team-created');
+    emit('close');
+  } catch (e: any) {
     console.error(e);
-    error.value = e.message;
+    error.value = e.message || "Une erreur est survenue.";
+  } finally {
+    isSubmitting.value = false;
   }
 };
 

@@ -44,7 +44,7 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { useApi } from '../../../composables/useApi.js';
+import { useApi } from '../../../composables/useApi';
 
 const props = defineProps({
   initialData: {

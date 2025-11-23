@@ -81,51 +81,41 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-import { useAuthStore } from '../../stores/authStore.js';
-import { useApi } from '../../composables/useApi.js';
+import { useAuthStore } from '../../stores/authStore';
 
 const authStore = useAuthStore();
-const { fetchApi } = useApi();
 
 const username = ref('');
 const password = ref('');
 const showPassword = ref(false);
 const isLoading = ref(false);
-const error = ref(null);
+const error = ref<string | null>(null);
 
 const handleSubmit = async () => {
   isLoading.value = true;
   error.value = null;
 
   try {
-    const data = await fetchApi('login', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: username.value,
-        password: password.value
-      })
+    await authStore.login({
+      email: username.value,
+      password: password.value
     });
 
-          if (data && data.token) {
-            authStore.setToken(data.token);
-            authStore.setUser(data.user);
-    
-            const userRole = data.user.user_type.name;
-        if (['admin', 'president', 'staff', 'coach'].includes(userRole)) {
-          window.location.href = '/manage';
-        } else if (userRole === 'player') {
-              window.location.href = '/dashboard';
-            } else {
-              // Default redirection or error for unknown roles
-              window.location.href = '/';
-            }
-          } else {
-            throw new Error(data.message || 'Email ou mot de passe incorrect.');
-          }
-  } catch (e) {
-    error.value = e.message;
+    // Redirect based on user role (now handled in authStore or here if we want)
+    // Since authStore.login sets the user, we can check it
+    const user = authStore.user;
+    if (user) {
+        // Redirect to dashboard for all users as requested
+        window.location.href = '/dashboard';
+    } else {
+        // Should not happen if login throws on failure
+        window.location.href = '/';
+    }
+
+  } catch (e: any) {
+    error.value = e.message || 'Email ou mot de passe incorrect.';
   } finally {
     isLoading.value = false;
   }
