@@ -151,6 +151,33 @@
         </div>
       </div>
 
+      <!-- Quarter Analysis -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" v-if="periodStats">
+        <!-- Points per Quarter -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">Moyenne de Points par Quart-Temps</h3>
+          <div class="h-64">
+            <BaseChart 
+              type="bar" 
+              :data="periodBarData" 
+              :options="barChartOptions"
+            />
+          </div>
+        </div>
+
+        <!-- Scoring Evolution -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">Évolution du Score (Moyenne)</h3>
+          <div class="h-64">
+            <BaseChart 
+              type="line" 
+              :data="evolutionLineData" 
+              :options="lineChartOptions"
+            />
+          </div>
+        </div>
+      </div>
+
     </div>
     
     <div v-else class="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
@@ -178,6 +205,7 @@ const error = ref(null);
 const stats = ref(null);
 const analysisStats = ref(null);
 const shootingStats = ref(null);
+const periodStats = ref(null);
 
 const fetchTeamStats = async (id) => {
   if (!id) return;
@@ -186,6 +214,7 @@ const fetchTeamStats = async (id) => {
   stats.value = null;
   analysisStats.value = null;
   shootingStats.value = null;
+  periodStats.value = null;
 
   try {
     // 1. Overview
@@ -199,6 +228,10 @@ const fetchTeamStats = async (id) => {
     // 3. Shooting
     const shootingRes = await fetchApi(`teams/${id}/stats/shooting`);
     shootingStats.value = shootingRes;
+
+    // 4. Periods
+    const periodRes = await fetchApi(`teams/${id}/stats/periods`);
+    periodStats.value = periodRes;
 
   } catch (e) {
     error.value = e.message || 'Erreur lors du chargement des statistiques.';
@@ -236,6 +269,52 @@ const analysisData = computed(() => {
   };
 });
 
+const periodBarData = computed(() => {
+  if (!periodStats.value) return { labels: [], datasets: [] };
+  const periods = periodStats.value.per_period;
+  return {
+    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    datasets: [
+      {
+        label: 'Équipe',
+        backgroundColor: '#3B82F6',
+        data: [periods[1].team, periods[2].team, periods[3].team, periods[4].team]
+      },
+      {
+        label: 'Adversaire',
+        backgroundColor: '#F97316',
+        data: [periods[1].opponent, periods[2].opponent, periods[3].opponent, periods[4].opponent]
+      }
+    ]
+  };
+});
+
+const evolutionLineData = computed(() => {
+  if (!periodStats.value) return { labels: [], datasets: [] };
+  const evolution = periodStats.value.evolution;
+  return {
+    labels: ['Début', 'Q1', 'Q2', 'Q3', 'Q4'],
+    datasets: [
+      {
+        label: 'Équipe',
+        borderColor: '#3B82F6',
+        backgroundColor: '#3B82F6',
+        data: [0, evolution[0].team_score, evolution[1].team_score, evolution[2].team_score, evolution[3].team_score],
+        fill: false,
+        tension: 0.1
+      },
+      {
+        label: 'Adversaire',
+        borderColor: '#F97316',
+        backgroundColor: '#F97316',
+        data: [0, evolution[0].opponent_score, evolution[1].opponent_score, evolution[2].opponent_score, evolution[3].opponent_score],
+        fill: false,
+        tension: 0.1
+      }
+    ]
+  };
+});
+
 const getDoughnutData = (percentage, color) => {
   return {
     labels: ['Réussis', 'Manqués'],
@@ -262,7 +341,18 @@ const barChartOptions = {
     y: { beginAtZero: true }
   },
   plugins: {
-    legend: { display: false }
+    legend: { display: true, position: 'bottom' }
+  }
+};
+
+const lineChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    y: { beginAtZero: true }
+  },
+  plugins: {
+    legend: { display: true, position: 'bottom' }
   }
 };
 

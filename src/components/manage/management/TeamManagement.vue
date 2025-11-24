@@ -71,9 +71,9 @@
     </template>
   </Modal>
 
-  <Modal :show="teamStatsModalStore.isOpen" title="Statistiques de l'Équipe" @close="teamStatsModalStore.closeModal" maxWidth="max-w-4xl">
+  <Modal :show="teamStatsModalStore.isOpen" title="Détails de l'Équipe" @close="teamStatsModalStore.closeModal" maxWidth="max-w-4xl">
     <template #body>
-      <TeamStatsDashboard v-if="teamStatsModalStore.teamId" :key="teamStatsModalStore.teamId" :team-id="teamStatsModalStore.teamId" />
+      <TeamDetails v-if="teamStatsModalStore.teamId" :key="teamStatsModalStore.teamId" :team-id="teamStatsModalStore.teamId" />
     </template>
   </Modal>
 </template>
@@ -85,7 +85,7 @@ import { useTeamsStore } from '../../../stores/teamsStore';
 import { useTeamStatsModalStore } from '../../../stores/teamStatsModalStore';
 import Modal from '../../common/Modal.vue';
 import TeamForm from '../forms/TeamForm.vue';
-import TeamStatsDashboard from '../../stats/TeamStatsDashboard.vue';
+import TeamDetails from './TeamDetails.vue';
 
 const { fetchApi } = useApi();
 const teamsStore = useTeamsStore();

@@ -9,9 +9,13 @@ export const ALL: APIRoute = async ({ request, cookies, params }) => {
     const searchParams = url.search;
 
     const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
         'Accept': 'application/json',
     };
+
+    const contentType = request.headers.get('Content-Type');
+    if (contentType) {
+        headers['Content-Type'] = contentType;
+    }
 
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;

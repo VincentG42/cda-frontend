@@ -30,43 +30,84 @@
         <p class="font-bold">Erreur:</p>
         <p>{{ usersStore.error }}</p>
       </div>
-      <div v-else class="overflow-x-auto">
-        <table class="w-full">
-          <thead>
-            <tr class="border-b border-gray-200">
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Nom</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Prénom</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">N° Licence</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Équipe</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Catégorie</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Email</th>
-              <th class="text-right py-3 px-4 font-medium text-gray-900">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in filteredUsers" :key="user.id" class="border-b border-gray-100 hover:bg-gray-50">
-              <td class="py-3 px-4">{{ user.lastname }}</td>
-              <td class="py-3 px-4">{{ user.firstname }}</td>
-              <td class="py-3 px-4">{{ user.licence_number }}</td>
-              <td class="py-3 px-4">{{ user.teams && user.teams.length > 0 ? user.teams[0].name : 'N/A' }}</td>
-              <td class="py-3 px-4">{{ user.teams && user.teams.length > 0 && user.teams[0].category ? user.teams[0].category.name : 'N/A' }}</td>
-              <td class="py-3 px-4">{{ user.email }}</td>
-              <td class="py-3 px-4">
-                <div class="flex items-center justify-end space-x-2">
-                  <button @click="statsModalStore.openModal(user.id)" class="p-1 text-purple-600 hover:bg-purple-50 rounded" title="Voir les statistiques">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-                  </button>
-                  <button @click="openEditModal(user)" class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="Modifier">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                  </button>
-                  <button @click="confirmDeleteUser(user)" class="p-1 text-red-600 hover:bg-red-50 rounded" title="Supprimer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div v-else>
+        <!-- Desktop Table View -->
+        <div class="hidden md:block overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Nom</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Prénom</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">N° Licence</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Équipe</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Catégorie</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Email</th>
+                <th class="text-right py-3 px-4 font-medium text-gray-900">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in filteredUsers" :key="user.id" class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4">{{ user.lastname }}</td>
+                <td class="py-3 px-4">{{ user.firstname }}</td>
+                <td class="py-3 px-4">{{ user.licence_number }}</td>
+                <td class="py-3 px-4">{{ user.teams && user.teams.length > 0 ? user.teams[0].name : 'N/A' }}</td>
+                <td class="py-3 px-4">{{ user.teams && user.teams.length > 0 && user.teams[0].category ? user.teams[0].category.name : 'N/A' }}</td>
+                <td class="py-3 px-4">{{ user.email }}</td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center justify-end space-x-2">
+                    <button @click="statsModalStore.openModal(user.id)" class="p-1 text-purple-600 hover:bg-purple-50 rounded" title="Voir les statistiques">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                    </button>
+                    <button @click="openEditModal(user)" class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="Modifier">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                    </button>
+                    <button @click="confirmDeleteUser(user)" class="p-1 text-red-600 hover:bg-red-50 rounded" title="Supprimer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="md:hidden space-y-4">
+          <div v-for="user in filteredUsers" :key="user.id" class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <h3 class="font-bold text-gray-900">{{ user.firstname }} {{ user.lastname }}</h3>
+                <p class="text-sm text-gray-500">{{ user.licence_number }}</p>
+              </div>
+              <div class="flex space-x-1">
+                <button @click="statsModalStore.openModal(user.id)" class="p-2 text-purple-600 bg-white border border-gray-200 rounded-lg shadow-sm" title="Voir les statistiques">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                </button>
+                <button @click="openEditModal(user)" class="p-2 text-blue-600 bg-white border border-gray-200 rounded-lg shadow-sm" title="Modifier">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                </button>
+                <button @click="confirmDeleteUser(user)" class="p-2 text-red-600 bg-white border border-gray-200 rounded-lg shadow-sm" title="Supprimer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Équipe:</span>
+                <span class="font-medium text-gray-900">{{ user.teams && user.teams.length > 0 ? user.teams[0].name : 'N/A' }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Catégorie:</span>
+                <span class="font-medium text-gray-900">{{ user.teams && user.teams.length > 0 && user.teams[0].category ? user.teams[0].category.name : 'N/A' }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Email:</span>
+                <span class="font-medium text-gray-900 break-all">{{ user.email }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

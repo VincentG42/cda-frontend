@@ -1,9 +1,14 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
-    <HeaderBar :user-name="userName" @logout="handleLogout" />
+    <HeaderBar :user-name="userName" @logout="handleLogout" @toggle-sidebar="toggleSidebar" />
     
-    <div class="flex flex-1 overflow-hidden">
-      <SidebarNavigation :active-section="activeSection" @section-change="handleSectionChange" />
+    <div class="flex flex-1 overflow-hidden relative">
+      <SidebarNavigation 
+        :active-section="activeSection" 
+        :is-open="isSidebarOpen"
+        @section-change="handleSectionChange" 
+        @close="closeSidebar"
+      />
       
       <main class="flex-1 overflow-auto">
         <div class="p-6">
@@ -36,6 +41,7 @@ import UserEvents from './UserEvents.vue';
 const authStore = useAuthStore();
 
 const activeSection = ref('dashboard');
+const isSidebarOpen = ref(false);
 const userName = computed(() => authStore.user ? authStore.user.firstname : 'Utilisateur');
 
 const handleLogout = () => {
@@ -45,6 +51,15 @@ const handleLogout = () => {
 
 const handleSectionChange = (section) => {
   activeSection.value = section;
+  isSidebarOpen.value = false; // Close sidebar on mobile when selection changes
+};
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value;
+};
+
+const closeSidebar = () => {
+  isSidebarOpen.value = false;
 };
 </script>
 

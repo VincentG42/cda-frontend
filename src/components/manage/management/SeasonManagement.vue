@@ -19,40 +19,76 @@
         <p class="font-bold">Erreur:</p>
         <p>{{ seasonsStore.error }}</p>
       </div>
-      <div v-else class="overflow-x-auto">
-        <table class="w-full">
-          <thead>
-            <tr class="border-b border-gray-200">
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Nom</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Début</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Fin</th>
-              <th class="text-left py-3 px-4 font-medium text-gray-900">Active</th>
-              <th class="text-right py-3 px-4 font-medium text-gray-900">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="season in seasonsStore.seasons" :key="season.id" class="border-b border-gray-100 hover:bg-gray-50">
-              <td class="py-3 px-4">{{ season.name }}</td>
-              <td class="py-3 px-4">{{ new Date(season.start_date).toLocaleDateString('fr-FR') }}</td>
-              <td class="py-3 px-4">{{ new Date(season.end_date).toLocaleDateString('fr-FR') }}</td>
-              <td class="py-3 px-4">
-                <span :class="[season.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800', 'px-2.5 py-0.5 rounded-full text-xs font-medium']">
-                  {{ season.is_active ? 'Oui' : 'Non' }}
+      <div v-else>
+        <!-- Desktop Table View -->
+        <div class="hidden md:block overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Nom</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Début</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Fin</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Active</th>
+                <th class="text-right py-3 px-4 font-medium text-gray-900">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="season in seasonsStore.seasons" :key="season.id" class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4">{{ season.name }}</td>
+                <td class="py-3 px-4">{{ new Date(season.start_date).toLocaleDateString('fr-FR') }}</td>
+                <td class="py-3 px-4">{{ new Date(season.end_date).toLocaleDateString('fr-FR') }}</td>
+                <td class="py-3 px-4">
+                  <span :class="[season.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800', 'px-2.5 py-0.5 rounded-full text-xs font-medium']">
+                    {{ season.is_active ? 'Oui' : 'Non' }}
+                  </span>
+                </td>
+                <td class="py-3 px-4">
+                  <div class="flex items-center justify-end space-x-2">
+                    <button @click="openEditModal(season)" class="p-1 text-blue-600 hover:bg-blue-50 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                    </button>
+                    <button @click="confirmDeleteSeason(season)" class="p-1 text-red-600 hover:bg-red-50 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Card View -->
+        <div class="md:hidden space-y-4">
+          <div v-for="season in seasonsStore.seasons" :key="season.id" class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <h3 class="font-bold text-gray-900">{{ season.name }}</h3>
+                <span :class="[season.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800', 'px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 inline-block']">
+                  {{ season.is_active ? 'Active' : 'Inactive' }}
                 </span>
-              </td>
-              <td class="py-3 px-4">
-                <div class="flex items-center justify-end space-x-2">
-                  <button @click="openEditModal(season)" class="p-1 text-blue-600 hover:bg-blue-50 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                  </button>
-                  <button @click="confirmDeleteSeason(season)" class="p-1 text-red-600 hover:bg-red-50 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+              <div class="flex space-x-1">
+                <button @click="openEditModal(season)" class="p-2 text-blue-600 bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                </button>
+                <button @click="confirmDeleteSeason(season)" class="p-2 text-red-600 bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-500">Début:</span>
+                <span class="font-medium text-gray-900">{{ new Date(season.start_date).toLocaleDateString('fr-FR') }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Fin:</span>
+                <span class="font-medium text-gray-900">{{ new Date(season.end_date).toLocaleDateString('fr-FR') }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

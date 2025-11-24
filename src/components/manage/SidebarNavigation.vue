@@ -1,28 +1,49 @@
 <template>
-  <nav class="w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col">
-    <div class="p-4">
-      <h2 class="text-lg font-semibold text-gray-900 mb-4">Navigation</h2>
-      
-      <ul class="space-y-2">
-        <li v-for="item in navigationItems" :key="item.id">
-          <button @click="$emit('section-change', item.id)" :class="[
-            'w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200',
-            activeSection === item.id ? 'bg-green-50 text-green-700 border border-green-200' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-          ]">
-            <component :is="item.icon" :class="[activeSection === item.id ? 'text-green-600' : 'text-gray-500']" />
-            <div class="flex-1">
-              <p :class="['text-sm font-medium', activeSection === item.id ? 'text-green-700' : 'text-gray-900']">
-                {{ item.label }}
-              </p>
-              <p :class="['text-xs', activeSection === item.id ? 'text-green-600' : 'text-gray-500']">
-                {{ item.description }}
-              </p>
-            </div>
+  <div>
+    <!-- Mobile Backdrop -->
+    <div 
+      v-if="isOpen" 
+      @click="$emit('close')" 
+      class="fixed inset-0 bg-gray-600 bg-opacity-75 z-20 md:hidden transition-opacity"
+    ></div>
+
+    <!-- Sidebar -->
+    <nav :class="[
+      'fixed inset-y-0 left-0 z-30 w-64 bg-white shadow-sm border-r border-gray-200 flex flex-col transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-auto md:flex',
+      isOpen ? 'translate-x-0' : '-translate-x-full'
+    ]">
+      <div class="p-4">
+        <div class="flex items-center justify-between mb-4 md:hidden">
+          <h2 class="text-lg font-semibold text-gray-900">Menu</h2>
+          <button @click="$emit('close')" class="text-gray-500 hover:text-gray-700">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
-        </li>
-      </ul>
-    </div>
-  </nav>
+        </div>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4 hidden md:block">Navigation</h2>
+        
+        <ul class="space-y-2">
+          <li v-for="item in navigationItems" :key="item.id">
+            <button @click="$emit('section-change', item.id)" :class="[
+              'w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200',
+              activeSection === item.id ? 'bg-green-50 text-green-700 border border-green-200' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+            ]">
+              <component :is="item.icon" :class="[activeSection === item.id ? 'text-green-600' : 'text-gray-500']" />
+              <div class="flex-1">
+                <p :class="['text-sm font-medium', activeSection === item.id ? 'text-green-700' : 'text-gray-900']">
+                  {{ item.label }}
+                </p>
+                <p :class="['text-xs', activeSection === item.id ? 'text-green-600' : 'text-gray-500']">
+                  {{ item.description }}
+                </p>
+              </div>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 </template>
 
 <script setup>
@@ -35,9 +56,10 @@ const Calendar = (props) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/
 const Megaphone = (props) => h('svg', { ...props, xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [h('path', { d: 'm3 11 18-5v12L3 14v-3z' }), h('path', { d: 'M11.6 16.8a3 3 0 1 1-5.8-1.6' })]);
 
 defineProps({
-  activeSection: String
+  activeSection: String,
+  isOpen: Boolean
 });
-defineEmits(['section-change']);
+defineEmits(['section-change', 'close']);
 
 const navigationItems = [
   { id: 'dashboard', label: 'Tableau de Bord', icon: BarChart3, description: 'Vue d\'ensemble' },

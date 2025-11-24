@@ -8,10 +8,15 @@ export function useApi() {
     const authStore = useAuthStore();
 
     const headers: HeadersInit = {
-      'Content-Type': 'application/json',
       'Accept': 'application/json',
       ...options.headers,
     };
+
+    const isFormData = options.body instanceof FormData || (options.body && options.body.constructor && options.body.constructor.name === 'FormData');
+
+    if (!isFormData) {
+      (headers as Record<string, string>)['Content-Type'] = 'application/json';
+    }
 
     const response = await fetch(`${API_URL}/${endpoint}`, {
       ...options,

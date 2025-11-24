@@ -113,9 +113,6 @@ const prepareImport = async () => {
     const response = await fetchApi(`matches/${props.match.id}/recap/prepare`, {
       method: 'POST',
       body: formData,
-      headers: {
-        'Accept': 'application/json',
-      },
     });
 
     console.log('API Response for prepare:', response); // Debug log
