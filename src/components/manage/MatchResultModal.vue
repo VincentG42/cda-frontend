@@ -17,7 +17,7 @@
       </div>
 
       <div v-if="activeTab === 'manual'">
-        <MatchResultForm :initialData="match" @submit="handleManualSubmit" @cancel="$emit('close')" />
+        <MatchResultForm :initialData="match" @submit="handleManualSubmit" />
       </div>
       <div v-else-if="activeTab === 'json-import'">
         <MatchRecapImporter :match="match" @import-success="handleImportSuccess" />

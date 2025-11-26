@@ -60,9 +60,9 @@
 
         <!-- Forgot Password Link -->
         <div class="text-right">
-          <button type="button" class="text-sm text-primary hover:text-primary/80 font-medium transition-colors duration-200">
+          <a href="/forgot-password" class="text-sm text-primary hover:text-primary/80 font-medium transition-colors duration-200">
             Mot de passe oublié ?
-          </button>
+          </a>
         </div>
 
         <!-- Submit Button -->
@@ -100,10 +100,19 @@ const handleSubmit = async (values: any) => {
   error.value = null;
 
   try {
-    await authStore.login({
+    const response = await authStore.login({
       email: values.email,
       password: values.password
     });
+
+    // Check if password change is required
+    // The store login method might return the response or we check the store state
+    // Let's assume login returns the response data if successful
+    
+    if (response && response.require_password_change) {
+        window.location.href = '/change-password';
+        return;
+    }
 
     const user = authStore.user;
     if (user) {

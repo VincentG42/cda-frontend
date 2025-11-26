@@ -2,15 +2,15 @@
   <form @submit.prevent="handleSubmit" class="space-y-4">
     <div>
       <label for="team_score" class="block text-sm font-medium text-gray-700">Score de l'équipe</label>
-      <input type="number" id="team_score" v-model.number="formData.team_score" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" />
+      <input type="number" id="team_score" v-model.number="formData.team_score" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" />
     </div>
     <div>
       <label for="opponent_score" class="block text-sm font-medium text-gray-700">Score de l'adversaire</label>
-      <input type="number" id="opponent_score" v-model.number="formData.opponent_score" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" />
+      <input type="number" id="opponent_score" v-model.number="formData.opponent_score" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" />
     </div>
     <div>
       <label for="is_victory" class="block text-sm font-medium text-gray-700">Résultat</label>
-      <select id="is_victory" v-model="formData.is_victory" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" :disabled="hasScores">
+      <select id="is_victory" v-model="formData.is_victory" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" :disabled="hasScores">
         <option :value="null">Non renseigné</option>
         <option :value="true">Victoire</option>
         <option :value="false">Défaite</option>
@@ -18,7 +18,6 @@
     </div>
 
     <div class="flex justify-end space-x-3 mt-6">
-      <button type="button" @click="$emit('cancel')" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Annuler</button>
       <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Enregistrer le résultat</button>
     </div>
   </form>

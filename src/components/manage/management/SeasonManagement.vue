@@ -95,7 +95,7 @@
 
   <Modal :show="showForm" :title="currentEditingSeason ? 'Modifier une Saison' : 'Créer une nouvelle Saison'" @close="closeModal">
     <template #body>
-      <SeasonForm :initialData="currentEditingSeason" @submit="handleSeasonFormSubmit" @cancel="closeModal" />
+      <SeasonForm :initialData="currentEditingSeason" @submit="handleSeasonFormSubmit" />
     </template>
   </Modal>
 
@@ -103,7 +103,7 @@
     <template #body>
       <p class="mb-4">Êtes-vous sûr de vouloir supprimer la saison <strong>{{ seasonToDelete ? seasonToDelete.name : '' }}</strong> ? Cette action est irréversible.</p>
       <p class="mb-2">Pour confirmer, veuillez taper "supprimer" dans le champ ci-dessous :</p>
-      <input type="text" v-model="deleteConfirmationInput" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500" />
+      <input type="text" v-model="deleteConfirmationInput" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500" />
     </template>
     <template #footer>
       <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 mr-2" @click="cancelDelete">Annuler</button>

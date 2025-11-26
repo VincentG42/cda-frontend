@@ -2,7 +2,7 @@
   <Form @submit="onSubmit" :validation-schema="validationSchema" :initial-values="initialValues" class="space-y-4" v-slot="{ setFieldValue }">
     <div>
       <label for="season_id" class="block text-sm font-medium text-gray-700">Saison</label>
-      <Field name="season_id" as="select" id="season_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+      <Field name="season_id" as="select" id="season_id" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
         <option value="">Sélectionner une saison</option>
         <option v-for="season in seasons" :key="season.id" :value="season.id">{{ season.name }}</option>
       </Field>
@@ -10,7 +10,7 @@
     </div>
     <div>
       <label for="team_id" class="block text-sm font-medium text-gray-700">Équipe (CCSLR)</label>
-      <Field name="team_id" as="select" id="team_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+      <Field name="team_id" as="select" id="team_id" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
         <option value="">Sélectionner une équipe</option>
         <option v-for="team in teams" :key="team.id" :value="team.id">{{ team.name }}</option>
       </Field>
@@ -18,7 +18,7 @@
     </div>
     <div>
       <label for="opponent" class="block text-sm font-medium text-gray-700">Adversaire</label>
-      <Field name="opponent" type="text" id="opponent" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" />
+      <Field name="opponent" type="text" id="opponent" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" />
       <ErrorMessage name="opponent" class="text-red-500 text-xs mt-1" />
     </div>
     <div class="flex items-center">
@@ -37,7 +37,7 @@
         id="happens_at_date" 
         v-model="happensAtDate" 
         @input="updateHappensAt(setFieldValue)"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" 
+        class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" 
         required 
       />
     </div>
@@ -48,14 +48,14 @@
         id="happens_at_time" 
         v-model="happensAtTime" 
         @input="updateHappensAt(setFieldValue)"
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" 
+        class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" 
         required 
       />
     </div>
 
     <div v-if="initialData">
       <label for="is_victory" class="block text-sm font-medium text-gray-700">Résultat</label>
-      <Field name="is_victory" as="select" id="is_victory" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+      <Field name="is_victory" as="select" id="is_victory" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
         <option :value="null">Non renseigné</option>
         <option :value="true">Victoire</option>
         <option :value="false">Défaite</option>
@@ -64,7 +64,6 @@
     </div>
 
     <div class="flex justify-end space-x-3 mt-6">
-      <button type="button" @click="$emit('cancel')" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">Annuler</button>
       <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">{{ initialData ? 'Modifier' : 'Créer' }}</button>
     </div>
   </Form>

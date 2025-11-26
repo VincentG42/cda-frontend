@@ -114,7 +114,7 @@
 
   <Modal :show="showForm" :title="currentEditingUser ? 'Modifier un Licencié' : 'Créer un nouveau Licencié'" @close="closeModal">
     <template #body>
-      <UserForm :initialData="currentEditingUser" @submit="handleUserFormSubmit" @cancel="closeModal" />
+      <UserForm :initialData="currentEditingUser" @submit="handleUserFormSubmit" />
     </template>
   </Modal>
 
@@ -122,7 +122,7 @@
     <template #body>
       <p class="mb-4">Êtes-vous sûr de vouloir supprimer l'utilisateur <strong>{{ userToDelete ? userToDelete.firstname + ' ' + userToDelete.lastname : '' }}</strong> ? Cette action est irréversible.</p>
       <p class="mb-2">Pour confirmer, veuillez taper "supprimer" dans le champ ci-dessous :</p>
-      <input type="text" v-model="deleteConfirmationInput" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500" />
+      <input type="text" v-model="deleteConfirmationInput" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500" />
     </template>
     <template #footer>
       <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 mr-2" @click="cancelDelete">Annuler</button>

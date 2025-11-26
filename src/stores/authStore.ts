@@ -54,9 +54,23 @@ export const useAuthStore = defineStore('auth', () => {
                 throw new Error(error.message || 'Login failed');
             }
 
-            const userData = await response.json();
-            setUser(userData);
-            // No need to set token manually, it's in the cookie
+            const data = await response.json();
+
+            // If password change is required, we might still get a user and token, 
+            // but we shouldn't fully log them in (persist them) if we want to be strict.
+            // However, we need the token to change the password.
+            // So we set the user and token, but the frontend will redirect.
+
+            if (data.user) {
+                setUser(data.user);
+            }
+            // Token is handled via cookie or returned? 
+            // The backend returns 'token' in the JSON now based on my edit.
+            if (data.token) {
+                setToken(data.token);
+            }
+
+            return data; // Return data so component can check for require_password_change
         } catch (error) {
             throw error;
         }

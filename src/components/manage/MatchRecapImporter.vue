@@ -42,7 +42,7 @@
           <p class="font-medium text-yellow-800">{{ player.firstname }} {{ player.lastname }} (Licence: {{ player.id }})</p>
           <div class="mt-2">
             <label :for="`map-player-${index}`" class="block text-xs font-medium text-yellow-700 mb-1">Associer à un licencié existant:</label>
-            <select :id="`map-player-${index}`" v-model="playerMappings[player.id]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
+            <select :id="`map-player-${index}`" v-model="playerMappings[player.id]" class="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-sm">
               <option value="">Ne pas associer</option>
               <option v-for="officialPlayer in officialPlayers" :key="officialPlayer.id" :value="officialPlayer.id">
                 {{ officialPlayer.firstname }} {{ officialPlayer.lastname }} ({{ officialPlayer.licence_number }})

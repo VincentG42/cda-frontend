@@ -27,7 +27,7 @@
           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ user.email }}</td>
           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ user.licence_number }}</td>
           <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-            <a :href="`/admin/players/${user.id}`" class="text-blue-600 hover:text-blue-900">
+            <a :href="`/manage/players/${user.id}`" class="text-blue-600 hover:text-blue-900">
               Voir le profil
             </a>
           </td>
