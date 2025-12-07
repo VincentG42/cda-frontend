@@ -2,17 +2,19 @@
 const API_URL = import.meta.env.PUBLIC_API_URL;
 let rawEvents = [];
 
-try {
-    const response = await fetch(`${API_URL}/api/events`);
-    if (response.ok) {
-        const json = await response.json();
-        // Les ressources API de Laravel enveloppent souvent les résultats dans un objet 'data'
-        rawEvents = json.data || []; 
-    } else {
-        console.error(`Error fetching events: ${response.statusText}`);
-    }
-} catch (e) {
-    console.error(`Failed to connect to API to fetch events: ${e.message}`);
+if (API_URL) {
+  try {
+      const response = await fetch(`${API_URL}/api/events`);
+      if (response.ok) {
+          const json = await response.json();
+          // Les ressources API de Laravel enveloppent souvent les résultats dans un objet 'data'
+          rawEvents = json.data || []; 
+      } else {
+          console.error(`Error fetching events: ${response.statusText}`);
+      }
+  } catch (e) {
+      console.error(`Failed to connect to API to fetch events: ${e.message}`);
+  }
 }
 
 const formatDate = (isoString) => new Date(isoString).toLocaleDateString('fr-FR', { month: 'long', day: 'numeric', year: 'numeric' });
