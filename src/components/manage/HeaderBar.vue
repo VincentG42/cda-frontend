@@ -28,6 +28,13 @@
           <p class="text-sm font-medium text-gray-900">{{ adminName }}</p>
           <p class="text-xs text-gray-500">Administrateur</p>
         </div>
+
+        <a href="/dashboard" class="flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition-colors duration-200">
+          <span class="text-sm font-medium hidden md:inline">Mon Dashboard</span>
+        </a>
+        <a href="/" class="flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-lg transition-colors duration-200">
+          <span class="text-sm font-medium hidden md:inline">Accueil</span>
+        </a>
         
         <button @click="$emit('logout')" class="flex items-center space-x-2 px-3 py-2 md:px-4 md:py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg transition-colors duration-200">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>

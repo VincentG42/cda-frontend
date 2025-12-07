@@ -30,7 +30,7 @@
           <a href="/" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">
             Accueil
           </a>
-          <a v-if="canAccessAdminDashboard" href="/admin/dashboard" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">
+          <a v-if="canAccessAdminDashboard" href="/manage" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">
             Admin Dashboard
           </a>
 

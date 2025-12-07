@@ -4,7 +4,7 @@
       <a v-if="canAccessAdminDashboard" href="/manage" class="nav-link font-medium transition-colors hover:text-[#FF7F11]">
         Admin Dashboard
       </a>
-      <a v-if="canAccessPlayerDashboard" href="/dashboard" class="nav-link font-medium transition-colors hover:text-[#FF7F11]">
+      <a v-if="canAccessPlayerDashboard" href="/dashboard" class_name="nav-link font-medium transition-colors hover:text-[#FF7F11]">
         Mon Dashboard
       </a>
       <button @click="handleLogout" class="bg-[#FF7F11] text-white px-6 py-2 rounded-full font-medium hover:bg-orange-600 transition-colors">

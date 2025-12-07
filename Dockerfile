@@ -21,7 +21,8 @@ FROM nginx:alpine
 
 # Copy custom Nginx configuration (if any, otherwise default is used)
 # If you have a custom nginx.conf, place it in a 'nginx' folder next to your Dockerfile
-# COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+# Copy custom Nginx configuration
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the built application from the builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
