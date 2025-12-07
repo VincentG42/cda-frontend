@@ -8,7 +8,7 @@
     "preview": "astro preview",
     "start": "node ./dist/server/entry.mjs",
     "astro": "astro",
-    "test:e2e": "astro build && playwright test"
+    "test:e2e": "npx playwright install --with-deps && astro build && playwright test"
   },
   "dependencies": {
     "@astrojs/node": "^8.3.4",
