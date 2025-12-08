@@ -9,6 +9,22 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title={import.meta.env.PUBLIC_APP_NAME || "Basket Club"}>
+  <script type="application/ld+json" slot="head">
+    {
+      JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SportsClub",
+        "name": import.meta.env.PUBLIC_APP_NAME || "Basket Club",
+        "description": import.meta.env.PUBLIC_APP_DESCRIPTION || "Le club de basket de référence.",
+        "url": import.meta.env.PUBLIC_APP_URL || "https://basketclub.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "France",
+          "addressCountry": "FR"
+        }
+      })
+    }
+  </script>
   <NavigationBar />
   <main>
     <HeroSection />
