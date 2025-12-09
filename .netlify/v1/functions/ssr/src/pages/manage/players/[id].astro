@@ -1,0 +1,15 @@
+---
+// src/pages/admin/players/[id].astro
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import PlayerProfile from "../../../components/manage/PlayerProfile.vue";
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/404");
+}
+---
+
+<AdminLayout title="Profil du Joueur">
+  <PlayerProfile userId={id} client:load />
+</AdminLayout>

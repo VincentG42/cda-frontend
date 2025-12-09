@@ -1,0 +1,15 @@
+---
+// src/pages/admin/teams/[id].astro
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import TeamProfile from "../../../components/manage/TeamProfile.vue";
+
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/404");
+}
+---
+
+<AdminLayout title="Profil de l'Équipe">
+  <TeamProfile teamId={id} client:load />
+</AdminLayout>

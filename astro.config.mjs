@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
+import netlify from '@astrojs/netlify';
 import vue from '@astrojs/vue';
 import tailwind from "@astrojs/tailwind";
 
@@ -8,7 +8,5 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   integrations: [vue({ appEntrypoint: '/src/plugins/pinia.js' }), tailwind()],
   output: 'server',
-  adapter: node({
-    mode: 'standalone',
-  }),
+  adapter: netlify(),
 });
